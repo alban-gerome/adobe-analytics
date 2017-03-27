@@ -1,0 +1,198 @@
+
+(function(obj){
+  var a = [], aa = [];
+  function translateRuleType(type){
+    return type=="pageLoadRules"   ? "Page Load Rule"   :
+           type=="directCallRules" ? "Direct Call Rule" :
+                       type=="rules"           ? "Event Based Rule" : "Error"
+  };
+  function translateScope(type, condition){
+    return type=="directCallRules" ? "Explicit Call"   :
+           type=="rules"           ? "Event Triggered" :
+           condition==undefined    ? "Unconditional"   : condition
+  };
+  function hasRuleFired(ruleName){
+    var u = _satellite.Logger.getHistory();
+    var v = u.length, w, x, y = false;
+    while(v--){
+      w = u[v].length;
+      while(w--){
+        x = u[v][w].match(new RegExp("(?:Direct\\scall\\s)?Rule\\s\"(" + ruleName + ")\"\\sfired\."));
+                y = x==undefined ? y : !0;
+      };
+    };
+    return y;
+  };
+  function getScriptCommand(dat){
+    if(dat==undefined) return undefined;
+    if(dat.match(/^_satellite/)==undefined) return undefined;
+    return dat.split("_satellite.")[1].split("(")[0];
+  };
+  function getScriptPrivacy(dat){
+    if(dat==undefined) return undefined;
+    var ab = dat.match(/(cat[234],?)+/);
+                return ab==undefined ? undefined : ab[0];
+  };
+  function getScriptImgURL(data){
+    if(data==undefined) return undefined;
+                var ac;
+    try{
+      ac = decodeURIComponent(data).match(/(?:["'])(?:https?:)?\/\/(?:[^\?]*)(?:[^?]*)?(?:[^#]*)?(?:\S*)?(?:["'])/i);
+    }catch(er){
+      ac = data.match(/(?:["'])(?:https?:)?\/\/(?:[^\?]*)(?:[^?]*)?(?:[^#]*)?(?:\S*)?(?:["'])/i);
+    };
+    if(ac==undefined) return undefined;
+                ac = ac[0].match(/http:/)  ? ["http:",  ac[0].split("http:")[1]].join("")  :
+         ac[0].match(/https:/) ? ["https:", ac[0].split("https:")[1]].join("") :
+         ac[0].match(/\/\//)   ? ["//",     ac[0].split("//")[1]].join("")     : undefined;
+    return ac.split(/"/)[0];
+  };
+  function getURLPart(url, part){
+    var url = getScriptImgURL(url);
+    if(url==undefined) return undefined;
+    try{
+                  var ad = url.match(/((?:https?:)?\/\/[^\/]*)(\/[^\?]*)?(\?[^#]*)?(\S*)?/i);
+      if(ad==undefined) return undefined;
+      return part=="protocol-domain" ? ad[1] :
+             part=="path"            ? ad[2] :
+             part=="query-string"    ? ad[3] :
+             part=="hash"            ? ad[4] :  undefined;
+    }catch(er){
+      return er;
+    };
+  };
+  function fixURL(url){
+    if(url==undefined) return undefined;
+                       return url.replace(/\/{3}/g, "//");
+  }; 
+  function processRules(type){
+    var b = _satellite[type], c = b.length;
+    var d = 0;
+    var e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, z;
+    while(c--){
+      e = _satellite[type].length - c - 1;
+      f = b[e];
+      g = f.trigger[0];
+      h = g.arguments[0];
+      i = h.scripts;
+      j = h.sequential=!0 ? "sequential" : "non-sequential";
+      k = g.command;
+      l = f.scope;
+      p = (function(){
+        if(typeof l=="undefined"){
+          q = l;
+        }else{
+          q = l.URI.include[0];
+        };
+        return q;
+      })();
+      z = hasRuleFired(f.name);
+      if(typeof i!="undefined"){
+        m = i.length;
+        while(m--){
+                                  n = document.location.protocol;
+          o = [
+            n, "/",
+            _satellite.data.host[n.replace(":", "")],
+            _satellite.settings.scriptDir.replace(/\/$/,""),
+            i[i.length - m - 1].src
+          ].join("/");
+          if((!z && obj.showNotFiredOnly) || (z && !obj.showNotFiredOnly) || obj.showNotFiredOnly==undefined){
+            r = {
+              "Rule Type"    : translateRuleType(type),
+              "Name"         : f.name,
+              "Has Fired?"   : z,
+              "Event"        : f.event,
+              "Loading Type" : j,
+              "Command"      : k,
+              "Scope"        : translateScope(type, p),
+              "Script URL"   : o
+            };
+            a.push(r);
+          };
+        };
+      }else{
+        if((!z && obj.showNotFiredOnly) || (z && !showNotFiredOnly) || obj.showNotFiredOnly==undefined){
+          r = {
+            "Rule Type"      : translateRuleType(type),
+            "Name"           : f.name,
+            "Has Fired?"     : z,
+            "Event"          : f.event,
+            "Loading Type"   : j,
+            "Command"        : k,
+            "Scope"          : translateScope(type, p),
+            "Script URL"     : i
+          };
+          a.push(r);
+        };
+      };
+    };
+  };
+  if(obj.showPageLoadRules)   processRules("pageLoadRules");
+  if(obj.showEventBasedRules) processRules("rules");
+  if(obj.showDirectCallRules) processRules("directCallRules");
+ 
+  //console.table(a);
+  d = 0;
+  m = a.length;
+  while(m--){
+    $.ajax({
+      step             : m,
+      url              : a[m]["Script URL"],
+      type             : "get",
+      error            : function(XMLHttpRequest){
+        s = [
+          undefined, [
+            XMLHttpRequest.status,
+            XMLHttpRequest.statusText
+          ].join(" - ")
+        ];
+      },
+      success          : function(data){
+        s = [data, "200 - Ok"];
+      },
+      complete         : function(){
+        d++;
+        t = a[this.step];
+        t["Script Content"]     = s[0];
+        t["Script HTTP Status"] = s[1];
+        t["Script Command"]     = getScriptCommand(s[0]);
+        t["Script Privacy"]     = getScriptPrivacy(s[0]);
+        t["Script Img URL"]     = getScriptImgURL(s[0]);
+        t["Script Img Domain"]  = getURLPart(s[0], "protocol-domain");
+        t["Script Img Path"]    = getURLPart(s[0], "path");
+        t["Script Img Query"]   = getURLPart(s[0], "query-string");
+        t["Script Img Hash"]    = getURLPart(s[0], "hash");
+        t["Script URL"]         = fixURL(t["Script URL"]);
+                               
+        t = obj.show404NotFoundOnly==!1 && s[1]=="404 - Not found" ? undefined : t;
+        t = obj.show404NotFoundOnly==!0 && s[1]!="404 - Not found" ? undefined : t;
+        t = d < (obj.fromRow||0)                                   ? undefined : t;
+        t = d > (obj.untilRow||a.length)                           ? undefined : t;
+        if(t!=undefined) aa.push(t);
+ 
+        if(d==a.length) console.table(aa, obj.columns);
+      }
+    });
+  };
+})({
+  columns             : [
+    "Rule Type",
+    "Name",
+    "Has Fired?",
+    "Script URL",
+    "Script HTTP Status",
+    "Script Content",
+    "Script Img URL",
+    "Script Img Domain",
+    "Script Img Path",
+    "Script Img Query"
+  ],
+  fromRow             : undefined,
+  untilRow            : undefined,
+  showPageLoadRules   : true,
+  showEventBasedRules : true,
+  showDirectCallRules : true,
+  showNotFiredOnly    : true,
+  show404NotFoundOnly : true
+});
