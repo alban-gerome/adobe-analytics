@@ -1,0 +1,76 @@
+(function(str){
+  var a = [];
+  function translateQueryStringKey(key){
+    var r = "";
+    if(r=key.match(/c(\d{1,2})/)) return ["prop", r[1]].join("");
+    if(r=key.match(/v(\d{1,2})/)) return ["eVar", r[1]].join("");
+    if(r=key.match(/h(\d)/))      return ["hier", r[1]].join("");
+                if(r=key.match(/l(\d)/))      return ["list", r[1]].join("");
+                if(key=="ch")                 return "channel";
+                if(key=="pe")                 return "interactionType";
+                if(key=="pev2")               return "interactionDescription";
+                return key;
+  };
+  function translateQueryStringValue(value){
+    return value=="lnk_d" ? "download" :
+           value=="lnk_e" ? "exit"     :
+           value=="lnk_o" ? "other"    : value;
+  };
+  function decodeRequest(str){
+    var b, c, d = [], e, f, g;
+    b = str.match(/\/b\/ss\/([a-zA-Z0-9]*)\/([\d.]*)\/([a-zA-Z0-9-.]*)\/(s\d*)\?/);
+    if(!b) return {
+      src         : str
+    };
+    c = {
+      src         : str,
+      rsid        : b[1],
+      mobile      : b[2],
+      version     : b[3],
+      cacheBuster : b[4]
+    };
+    d = [
+      "pageName", "ch",   "c1",  "c2",  "c3", "c16",
+      "pe",       "pev2", "c17", "c60",
+      "c11",      "v11",  "c32", "l3",
+      "c30",      "c31",  "v10",
+      "c54",      "c72",
+      "v25",      "c34",  "v36", "v37", "v38",
+      "v12",      "v14",
+      "events",   "t"
+    ].reverse();
+    e = d.length;
+    while(e--){
+      f = str.match(new RegExp([
+        "\\/b\\/ss\\/.*&",
+        d[e],
+        "=([^&]*)"
+      ].join("")));
+      if(f) c[translateQueryStringKey(d[e])] = translateQueryStringValue(unescape(f[1]));
+    };
+    g                   = c.t.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/);
+    c.timestamp         = (function(t){
+      var tm = t.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/);
+      return Date.UTC(+tm[3],tm[2]-1,+tm[1],+tm[4],+tm[5],+tm[6]);
+    })(c.t);
+    c.t                 = [
+      [g[1], (+g[2]+1+""), g[3]].join("/"),
+      [g[4],   g[5],       g[6]].join(":"),
+      "GMT"
+    ].join(" ");
+    c.isPageView        = (function(){
+      return str.match(/\/b\/ss\/.*&pageName=([^&]*)/)!=null &&
+             str.match(/\/b\/ss\/.*&pageName=([^&]*)&.*pe=([^&]*)&.*pev2=([^&]*)/)==null
+    })();
+    c.isPageInteraction = (function(){
+      return str.match(/\/b\/ss\/.*&pageName=([^&]*)&.*pe=([^&]*)&.*pev2=([^&]*)/)!=null
+    })();
+    return c;              
+  };
+  if(typeof str=="undefined"){
+    for(var i in window) if(i.match(/^s_i_/) && window[i].src) a.push(decodeRequest(window[i].src));
+    return a;
+  }else{
+    return decodeRequest(str);
+  };
+})();
