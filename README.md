@@ -4,7 +4,7 @@ MeasureCamp London X - Mar 25th 2017
 3 scripts for Adobe Reports & Analytics and DTM
 -----------------------------------------------
 
-# Show the URLs in the pages report with a bookmarklet
+### Show the URLs in the pages report with a bookmarklet
 
 The Reports & Analytics interface has gone through a radical facelift in the past few years. The underlying architecture also seems to have changed and now uses:
 
@@ -20,7 +20,11 @@ Interestingly these page name links are ordinary links with a URL, the default U
 * split each cell into 2 cells, one with the original page name link and one with the URL
 * turn the script into a bookmarklet
 
-For the bookmarklet code please open the Javascript file in this repository. To create the bookmark do this:
+The code for the bookmarklet is here:
+
+https://github.com/alban-gerome/adobe-analytics/blob/master/show-page-name
+
+To create the bookmark do this:
 
 * Bookmark any page in your browser
 * Place the bookmark in your bookmarks toolbar, make sure that the toolbar is visible
@@ -29,7 +33,7 @@ For the bookmarklet code please open the Javascript file in this repository. To 
 Please note that exporting the report will not add the URLs to the exported report. Use a browser extension that lets you export HTML tables into CSV for example. Here's one for Chrome: https://chrome.google.com/webstore/detail/table-capture/iebpjdmgckacbodjpijphcplhebcmeop?hl=en
 
 
-# Developers-friendly debugger for Reports & Analytics
+### Developers-friendly debugger for Reports & Analytics
 
 The Adobe DigitalPulse Debugger is an amazing tool but if you are using multiple Adobe tools such as Target on top of Reports & Analytics, many interactions etc it can quickly become a little too verbose. There's also a max limit on how many requests it can display, just under 100 I think.
 
@@ -50,7 +54,9 @@ s_i_barclaysuk_3
 
 Each of these variables contain an img tag and the value of the src attribute is your image request. The Adobe DigitalPulse Debugger simply decodes them and displays them nicely.
 
-When I give a tagging guide to the developers I give them a spreadsheet where each row can be a bunch of tracking requirements for a single page view or a single page element interaction. I ask the developers to provide evidence that the code was displayed, i.e. the raw image request. Unfortunately they often provide me with the requests for another tracking requirement so I have to reorder them, get rid of the duplicate raw requests and see what's missing. Eventually I wrote code that returns a JSON onject showing clearly whether this is a page view or a page element interaction and which sort of interaction it was. The code is in a separate file in this repository.
+When I give a tagging guide to the developers I give them a spreadsheet where each row can be a bunch of tracking requirements for a single page view or a single page element interaction. I ask the developers to provide evidence that the code was displayed, i.e. the raw image request. Unfortunately they often provide me with the requests for another tracking requirement so I have to reorder them, get rid of the duplicate raw requests and see what's missing. Eventually I wrote code that returns a JSON onject showing clearly whether this is a page view or a page element interaction and which sort of interaction it was. The code is here:
+
+https://github.com/alban-gerome/adobe-analytics/blob/master/SC-debugger
 
 Now this debugger can run in 2 modes:
 
@@ -60,11 +66,11 @@ Now this debugger can run in 2 modes:
 Now the developers can see immediately whether the code is firing and what sort of request it was. It's also great to educate people on how the data gets packaged up and sent to Adobe.
 
 
-# DTM debugger
+### DTM debugger
 
 The DTM debugger is useful but very limited I think. I was wasting a huge amount of time beautifying the satelliteLib file to find which scripts were associated to which rules and then checking back in my network tab whether these had loaded and what was the URL of the marketing pixel in these DTM files.
 
-At about the same time I was reading something on _console.table()_ as an alternative to _console.log()_ and presto I was typing things like _console.table(_satellite.pageLoadRules) and thought it was quite nifty. You can even sort the table by a column of your choice! Then I kept refining this into a much larger script which now allows me to:
+At about the same time I was reading something on _console.table()_ as an alternative to _console.log()_ and presto I was typing things like _console.table(_satellite.pageLoadRules)_ and thought it was quite nifty. You can even sort the table by a column of your choice! Then I kept refining this into a much larger script which now allows me to:
 
 * merge the page load rules, event_based rules, direct call rules into a single table
 * show one row per satellite file instead of one per rule
@@ -73,7 +79,11 @@ At about the same time I was reading something on _console.table()_ as an altern
 * show only certain types or rules, or the ones that did not fire or where the satellite file could not be found
 * show only the columns you need, or the top 10 rows or the last 20
 
-Here again the whole script is in a separate file in this repository. Here are the options you can play with:
+The code is here:
+
+https://github.com/alban-gerome/adobe-analytics/blob/master/DTM-debugger
+
+Here are the options you can play with:
 
 * columns - put in an array the names of the columns you need or set to _undefined_ if you want them all but go buy a wider screen first
 * fromRow - from row number
