@@ -47,10 +47,10 @@ If you try this on a page with interactions and triggered some of them you will 
 
 barclaysuk // value of my s.visitorNamespace property
 
-s_i_barclaysuk
-s_i_barclaysuk_1
-s_i_barclaysuk_2
-s_i_barclaysuk_3
+* s_i_barclaysuk
+* s_i_barclaysuk_1
+* s_i_barclaysuk_2
+* s_i_barclaysuk_3
 
 Each of these variables contain an img tag and the value of the src attribute is your image request. The Adobe DigitalPulse Debugger simply decodes them and displays them nicely.
 
