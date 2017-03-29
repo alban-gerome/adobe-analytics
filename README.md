@@ -8,7 +8,7 @@ MeasureCamp London X - Mar 25th 2017
 
 The Reports & Analytics interface has gone through a radical facelift in the past few years. The underlying architecture also seems to have changed and now uses:
 
-* ReactJS - a Facebook framework to speed up rendering
+* React.js - a Facebook framework to speed up rendering
 * AngularJS - a Google framework to replace full page loads with partial page updates
 * jQuery - now you're talking!
 
