@@ -54,16 +54,16 @@ barclaysuk // value of my s.visitorNamespace property
 
 Each of these variables contain an img tag and the value of the src attribute is your image request. The Adobe DigitalPulse Debugger simply decodes them and displays them nicely.
 
-When I give a tagging guide to the developers I give them a spreadsheet where each row can be a bunch of tracking requirements for a single page view or a single page element interaction. I ask the developers to provide evidence that the code was displayed, i.e. the raw image request. Unfortunately they often provide me with the requests for another tracking requirement so I have to reorder them, get rid of the duplicate raw requests and see what's missing. Eventually I wrote code that returns a JSON onject showing clearly whether this is a page view or a page element interaction and which sort of interaction it was. The code is here:
+When I give a tagging guide to the developers I give them a spreadsheet where each row can be a bunch of tracking requirements for a single page view or a single page element interaction. I ask the developers to provide evidence that the code was displayed, i.e. the raw image request. Unfortunately they often provide me with the requests for another tracking requirement so I have to reorder them, get rid of the duplicate raw requests and see what's missing. Eventually I wrote code that returns a JSON object showing clearly whether this is a page view or a page element interaction and which sort of interaction it was. The code is here:
 
 https://github.com/alban-gerome/adobe-analytics/blob/master/SC-debugger
 
 Now this debugger can run in 2 modes:
 
 * You have the raw image request - the script will decode it for you and return a JSON object
-* You are on the page you need to test - the script will return an array of all the image requests that the page has fired. The array contains the decoded image requests, one JSON object request
+* You are on the page you need to test - the script will return an array of all the image requests that the page has fired. The array contains the decoded image requests, one JSON object per request
 
-Now the developers can see immediately whether the code is firing and what sort of request it was. It's also great to educate people on how the data gets packaged up and sent to Adobe.
+Now the developers can see immediately whether the code is firing and what sort of request they are looking at. It's also great to educate people on how the data gets packaged up and sent to Adobe.
 
 
 ### DTM debugger
@@ -102,8 +102,8 @@ Here are the columns available, some might not work for you as the contents of y
 * Has fired? - the rule condition was met. The satellite file may contain additional conditions that were not met. This column only concerns the rule conditions
 * Event - the type of event, only for event-based rules
 * Loading Type - sequential or non-sequential
-* Command - Can't remember, never used that column
-* Scope - The conditions applied to the rule, not the ones in the satellite files
+* Command - can't remember, never used that column
+* Scope - the conditions applied to the rule, not the ones in the satellite files
 * Script URL - satellite file absolute URL
 * Script Content - satellite file content peek, 100 characters only
 * Script HTTP Status - satellite file status code
