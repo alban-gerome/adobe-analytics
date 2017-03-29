@@ -70,7 +70,7 @@ Now the developers can see immediately whether the code is firing and what sort 
 
 The DTM debugger is useful but very limited I think. I was wasting a huge amount of time beautifying the satelliteLib file to find which scripts were associated to which rules and then checking back in my network tab whether these had loaded and what was the URL of the marketing pixel in these DTM files.
 
-At about the same time I was reading something on _console.table()_ as an alternative to _console.log()_ and presto I was typing things like _console.table(_satellite.pageLoadRules)_ and thought it was quite nifty. You can even sort the table by a column of your choice! Then I kept refining this into a much larger script which now allows me to:
+At about the same time I was reading something on _console.table()_ as an alternative to _console.log()_ and presto I was typing things like _console.table(\_satellite.pageLoadRules)_ and thought it was quite nifty. You can even sort the table by a column of your choice! Then I kept refining this into a much larger script which now allows me to:
 
 * merge the page load rules, event_based rules, direct call rules into a single table
 * show one row per satellite file instead of one per rule
