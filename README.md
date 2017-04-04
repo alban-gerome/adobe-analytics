@@ -66,7 +66,7 @@ Now this debugger can run in 2 modes:
 Now the developers can see immediately whether the code is firing and what sort of request they are looking at. It's also great to educate people on how the data gets packaged up and sent to Adobe.
 
 
-### DTM debugger
+### DTM debugger (Google Chrome only)
 
 The DTM debugger is useful but very limited I think. I was wasting a huge amount of time beautifying the satelliteLib file to find which scripts were associated to which rules and then checking back in my network tab whether these had loaded and what was the URL of the marketing pixel in these DTM files.
 
