@@ -72,7 +72,7 @@ The DTM debugger is useful but very limited I think. I was wasting a huge amount
 
 At about the same time I was reading something on _console.table()_ as an alternative to _console.log()_ and presto I was typing things like _console.table(\_satellite.pageLoadRules)_ and thought it was quite nifty. You can even sort the table by a column of your choice!
 
-Now the script I used for my demo at MeasureCamp would only work on the websites in my work remit. It seems that the code does not work for some of you so please start with this simplified version below. It will display for every row the details of each _satellite-*.js_ script.
+Now the script I used for my demo at MeasureCamp might only work on the websites in my work remit and not work for some of you so please start with this simplified version below. It will display for every row the details of each _satellite-*.js_ script.
 
 https://github.com/alban-gerome/adobe-analytics/blob/master/DTM-debugger-mini
 
