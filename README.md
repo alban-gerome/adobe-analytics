@@ -70,10 +70,31 @@ Now the developers can see immediately whether the code is firing and what sort 
 
 The DTM debugger is useful but very limited I think. I was wasting a huge amount of time beautifying the satelliteLib file to find which scripts were associated to which rules and then checking back in my network tab whether these had loaded and what was the URL of the marketing pixel in these DTM files.
 
-At about the same time I was reading something on _console.table()_ as an alternative to _console.log()_ and presto I was typing things like _console.table(\_satellite.pageLoadRules)_ and thought it was quite nifty. You can even sort the table by a column of your choice! Then I kept refining this into a much larger script which now allows me to:
+At about the same time I was reading something on _console.table()_ as an alternative to _console.log()_ and presto I was typing things like _console.table(\_satellite.pageLoadRules)_ and thought it was quite nifty. You can even sort the table by a column of your choice!
 
-* merge the page load rules, event_based rules, direct call rules into a single table
-* show one row per satellite file instead of one per rule
+Now the script I used for my demo at MeasureCamp would only work on the websites in my work remit. It seems that the code does not work for some of you so please start with this simplified version below. It will display for every row the details of each _satellite-*.js_ script.
+
+https://github.com/alban-gerome/adobe-analytics/blob/master/DTM-debugger-mini
+
+* (index) : _satellite-*.js_ file name for all non-sequential content or a numeric index for sequential content
+* Rule Name : This is the same of the rule the _satellite-*.js_ file belongs to
+* Type : _Page Load Rule_, _Direct Call Rule_ or _Event Based Rule_
+* Conditions Met? : This indicates whether the condition in your rule were met and your content was served. Content served and the tag working are two distinct things. You might be serving a marketing pixel but the URL is incorrect
+* Event : _pagebottom_, _pagetop_, _domready_, _load_
+* Command : _loadBlockingScript_, _loadScript_, _loadIframe_, _writeHTML_, this will depend on what you selected in DTM, i.e. _sequential Javascript_, _non-sequential Javascript_, _sequential HTML_ and _non-sequential HTML_
+* Loading Type : _sequential_ or _non-sequential_
+* Script URL : absolute URL of the _satellite-*.js_ file, if the URL is longer than 100 characters the file name will be truncated and an ellipsis character will be displayed in the middle. _console.table_ can only show 100 characters per table cell 
+
+You can customise the output at the end of the code:
+
+* showPageLoadRules : set to _true_ if you need to see page load rules, _false_ to hide them, _undefined_ if you don't care
+* showEventBasedRules : same as above but for event-based rules
+* showDirectCallRules : same as above but for direct call rules
+
+Set all 3 properties to _true_ to see the information for all  _satellite-*.js_ files.
+
+The script I presented at MeasureCamp supported more features and provided more information such as:
+
 * show whether the satellite file had loaded, the HTTP status code
 * show parts of the marketing pixel URL in the satellite file
 * show only certain types or rules, or the ones that did not fire or where the satellite file could not be found
