@@ -1,0 +1,69 @@
+(function(obj){
+  var a = {};
+  function hasRuleFired(ruleName){
+    var a, b, c = !1;
+    _satellite.Logger.getHistory().map(function(a){
+      a.map(function(b){
+        c = new RegExp("(?:Direct\\scall\\s)?Rule\\s\"(" + ruleName + ")\"\\sfired\.").test(b) ? !0 : c;
+      });
+    });
+    return c;
+  };
+  function getRuleType(type){
+    return type=="pageLoadRules"   ? "Page Load Rule"   :
+           type=="directCallRules" ? "Direct Call Rule" :
+           type=="rules"           ? "Event Based Rule" : "Error";
+  };
+  function getScriptURL(file){
+    var a = document.location.protocol;
+    return [
+      a, "/",
+      _satellite.data.host[a.replace(":", "")],
+      _satellite.settings.scriptDir.replace(/\/$/,""),
+      file
+    ].join("/");
+  };
+  function processRules(type){
+    var b, c, d, e, f, g, h = 0;
+    _satellite[type].map(function(b){
+      c = b.trigger[0];
+      d = hasRuleFired(b.name);
+      e = c.arguments[0];
+      f = {
+        "Rule Name"         : b.name,
+        "Type"              : getRuleType(type),
+        "Conditions Met?"   : d,
+        "Event"             : b.event,
+        "Command"           : c.command
+      };
+      if(e.html!=undefined){
+        c.arguments.map(function(g){
+          f["Loading Type"] = undefined;
+          f["Script URL"]   = undefined;
+          a[h]              = f;
+          h++;
+        });
+      }else if(e.html==undefined && e.scripts!=undefined){
+        e.scripts.map(function(g){
+          f["Loading Type"] = e.sequential=!0 ? "sequential" : "non-sequential";
+          f["Script URL"]   = getScriptURL(g.src);
+          a[g.src]          = f;
+        });
+      }else if(e.html==undefined && e.scripts==undefined){
+          f["Loading Type"] = e.sequential=!0 ? "sequential" : "non-sequential";
+          f["Script URL"]   = undefined;
+          a[h]              = f;
+          h++;
+      };
+    });
+    return a;
+  };
+  if(obj.showPageLoadRules)   processRules("pageLoadRules");
+  if(obj.showEventBasedRules) processRules("rules");
+  if(obj.showDirectCallRules) processRules("directCallRules");
+  console.table(a);
+})({
+  showPageLoadRules   : true,
+  showEventBasedRules : true,
+  showDirectCallRules : true
+});
