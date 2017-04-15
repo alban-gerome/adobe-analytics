@@ -1,4 +1,4 @@
-
+// Measurecamp London X - Mar 25th 2017 version
 (function(obj){
   var a = [], aa = [];
   function translateRuleType(type){
