@@ -33,7 +33,7 @@ To create the bookmark do this:
 Please note that exporting the report will not add the URLs to the exported report. Use a browser extension that lets you export HTML tables into CSV for example. Here's one for Chrome: https://chrome.google.com/webstore/detail/table-capture/iebpjdmgckacbodjpijphcplhebcmeop?hl=en
 
 
-### Developers-friendly debugger for Reports & Analytics
+### Developers-friendly debugger for Reports & Analytics - updated Apr 4th 2017
 
 The Adobe DigitalPulse Debugger is an amazing tool but if you are using multiple Adobe tools such as Target on top of Reports & Analytics, many interactions etc it can quickly become a little too verbose. There's also a max limit on how many requests it can display, just under 100 I think.
 
@@ -54,7 +54,7 @@ barclaysuk // value of my s.visitorNamespace property
 
 Each of these variables contain an img tag and the value of the src attribute is your image request. The Adobe DigitalPulse Debugger simply decodes them and displays them nicely.
 
-When I give a tagging guide to the developers I give them a spreadsheet where each row can be a bunch of tracking requirements for a single page view or a single page element interaction. I ask the developers to provide evidence that the code was displayed, i.e. the raw image request. Unfortunately they often provide me with the requests for another tracking requirement so I have to reorder them, get rid of the duplicate raw requests and see what's missing. Eventually I wrote code that returns a JSON object showing clearly whether this is a page view or a page element interaction and which sort of interaction it was. The code is here:
+When I give a tagging guide to the developers I give them a spreadsheet where each row can be a bunch of tracking requirements for a single page view or a single page interaction. I ask the developers to provide evidence that the code was displayed, i.e. the raw image request. Unfortunately they often provide me with the requests for another tracking requirement so I have to reorder them, get rid of the duplicate raw requests and see what's missing. Eventually I wrote code that returns a JSON object showing clearly whether this is a page view or a page element interaction and which sort of interaction it was. The code is here:
 
 https://github.com/alban-gerome/adobe-analytics/blob/master/SC-debugger
 
@@ -64,6 +64,94 @@ Now this debugger can run in 2 modes:
 * You are on the page you need to test - the script will return an array of all the image requests that the page has fired. The array contains the decoded image requests, one JSON object per request
 
 Now the developers can see immediately whether the code is firing and what sort of request they are looking at. It's also great to educate people on how the data gets packaged up and sent to Adobe.
+
+The latest version is v0.2, let's look at the changes and fixes:
+
+* The debugger will now take either a string of an image request like before and/or an array of the exact data points you need. My previous version had hard-coded values that won't work for you, that's fixed
+* In addition to the array of data points you need you can pass an empty array and this debugger will show you something similar information to what the Adobe DigitalPulse Debugger would show
+
+Example 1: Let the debugger find the data points that were declared
+
+<pre><code>
+  (function(obj){
+    // business logic hidden
+  })([]);
+  
+</code></pre>
+  
+Example 2: Good if you know the raw names of the different data point you need to display the following
+
+* page name, the site section (ch - channel), prop1 (c1), prop2 (c2), prop3 (c3), prop16 (c16)
+* the interaction type (pe), the interaction description (pev2), prop17 (c17), prop60 (c60)
+* prop30 (c30), prop31 (c31), eVar10 (v10)
+* prop54 (c54), prop72 (c72)
+* eVar25 (v25), prop34 (c34), eVar36 (v36), eVar37 (v37), eVar38 (v38)
+* eVar12 (v12), eVar14 (v14)
+* events, timestamps
+
+<pre><code>
+  (function(obj){
+    // business logic hidden
+  })(["pageName", "ch",   "c1",  "c2",  "c3", "c16",
+      "pe",       "pev2", "c17", "c60",
+      "c11",      "v11",  "c32", "l3",
+      "c30",      "c31",  "v10",
+      "c54",      "c72",
+      "v25",      "c34",  "v36", "v37", "v38",
+      "v12",      "v14",
+      "events",   "t"
+  ]});
+  
+</code></pre>
+  
+Example 2 syntax variant, slightly more verbose:
+
+<pre><code>
+  (function(obj){
+    // business logic hidden
+  })({
+    fields  : ["pageName", "ch",   "c1",  "c2",  "c3", "c16",
+               "pe",       "pev2", "c17", "c60",
+               "c11",      "v11",  "c32", "l3",
+               "c30",      "c31",  "v10",
+               "c54",      "c72",
+               "v25",      "c34",  "v36", "v37", "v38",
+               "v12",      "v14",
+               "events",   "t"
+    ],
+    request : undefined
+  });
+  
+</code></pre>
+
+
+Example 3: You were given a raw image request in text format, use the debugger like this
+
+Raw request - mmm
+
+https://smetrics.barclays.co.uk/b/ss/barukalbandev/1/H.25.1/s14473374245718?AQB=1&ndh=1&t=15%2F3%2F2017%2012%3A33%3A0%206%20-60&ns=barclaysuk&cdp=3&pageName=onl%3Alogon%3ALogonLogin%3AStep1WhoAreYouLoginMyBarclays&g=https%3A%2F%2Fbank.barclays.co.uk%2Folb%2Fauth%2FLoginLink.action&r=http%3A%2F%2Fwww.barclays.co.uk%2FPersonalBanking%2FP1242557947640&cc=GBP&ch=UKRBB&server=bank.barclays.co.uk&events=event20&c1=onl&c2=onl%3Alogon&v2=Repeat&c3=onl%3Alogon%3ALogonLogin&c5=38&c6=12%3A30PM&v6=12%3A30PM&c7=Saturday&v7=Saturday&c8=Weekend&v8=Weekend&c16=%2Folb%2Fauth%2FLoginLink.action&v36=MembershipID&v39=D%3Ds_vi&v41=onl%3Alogon%3ALogonLogin%3AStep1WhoAreYouLoginMyBarclays&h1=onl%3Alogon%3ALogonLogin&s=1920x1080&c=24&j=1.6&v=N&k=Y&bw=1225&bh=961&p=Widevine%20Content%20Decryption%20Module%3BChrome%20PDF%20Viewer%3BNative%20Client%3B&AQE=1
+
+<pre><code>
+  (function(obj){
+    // business logic hidden
+  })({
+    fields  : [],
+    request : "https://smetrics.barclays.co.uk/b/ss/barukalbandev/1/H.25.1/s14473374245718?AQB=1&ndh=1&t=15%2F3%2F2017%2012%3A33%3A0%206%20-60&ns=barclaysuk&cdp=3&pageName=onl%3Alogon%3ALogonLogin%3AStep1WhoAreYouLoginMyBarclays&g=https%3A%2F%2Fbank.barclays.co.uk%2Folb%2Fauth%2FLoginLink.action&r=http%3A%2F%2Fwww.barclays.co.uk%2FPersonalBanking%2FP1242557947640&cc=GBP&ch=UKRBB&server=bank.barclays.co.uk&events=event20&c1=onl&c2=onl%3Alogon&v2=Repeat&c3=onl%3Alogon%3ALogonLogin&c5=38&c6=12%3A30PM&v6=12%3A30PM&c7=Saturday&v7=Saturday&c8=Weekend&v8=Weekend&c16=%2Folb%2Fauth%2FLoginLink.action&v36=MembershipID&v39=D%3Ds_vi&v41=onl%3Alogon%3ALogonLogin%3AStep1WhoAreYouLoginMyBarclays&h1=onl%3Alogon%3ALogonLogin&s=1920x1080&c=24&j=1.6&v=N&k=Y&bw=1225&bh=961&p=Widevine%20Content%20Decryption%20Module%3BChrome%20PDF%20Viewer%3BNative%20Client%3B&AQE=1"
+  });
+  
+</code></pre>
+  
+To find one of these raw image requests on your website:
+
+1. Open Chrome for example
+2. Open Chrome DevTools
+3. Open the Network tab
+4. Type /b/ss/ in the filter text box - "ss" stands for "SuperStats" which was the original name of Adobe Analytics even before it was called Omniture, here's a free bit of trivia for you
+5. Load (or reload) the page
+6. Right click on one of the matches
+7. Copy and Copy link address
+
+Voil&agrave;!
 
 
 ### DTM debugger (Google Chrome only) - updated Apr 4th 2017
