@@ -51,7 +51,9 @@
       rsid        : e[1],
       mobile      : e[2],
       version     : e[3],
-      cacheBuster : e[4]
+      cacheBuster : e[4],
+      length      : str.length,
+      isTooLong   : str.length > 2083
     };
     if(b.fields==undefined || b.fields.constructor!==Array) return f;
     if(b.fields.length==0) b.fields = buildFullList();
