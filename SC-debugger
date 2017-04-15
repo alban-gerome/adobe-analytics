@@ -1,76 +1,79 @@
-(function(str){
-  var a = [];
+// SiteCatalyst Debugger v0.2
+(function(obj){
+  var a = [], b = {}, c, d;
+  switch(obj.constructor){
+    case Object   : b = obj;             break;
+    case Array    : b = {fields  : obj}; break;
+    case String   : b = {request : obj}; break;
+  };
+  function buildFullList(){
+    var g = ["pageName", "ch", "products", "campaign", "t"], h;
+    for(h=1; h<=100;  h++) g.push(["c",     h].join(""));
+    for(h=1; h<=255;  h++) g.push(["v",     h].join(""));
+    for(h=1; h<=5;    h++) g.push(["h",     h].join(""));
+    for(h=1; h<=3;    h++) g.push(["l",     h].join(""));
+    for(h=1; h<=1000; h++) g.push(["event", h].join(""));
+    return g;
+  };
   function translateQueryStringKey(key){
-    var r = "";
-    if(r=key.match(/c(\d{1,2})/)) return ["prop", r[1]].join("");
-    if(r=key.match(/v(\d{1,2})/)) return ["eVar", r[1]].join("");
-    if(r=key.match(/h(\d)/))      return ["hier", r[1]].join("");
-                if(r=key.match(/l(\d)/))      return ["list", r[1]].join("");
-                if(key=="ch")                 return "channel";
-                if(key=="pe")                 return "interactionType";
-                if(key=="pev2")               return "interactionDescription";
-                return key;
+    var g = "";
+    if(g=key.match(/c(\d{1,2})/))        return ["prop", g[1]].join("");
+    if(g=key.match(/v(\d{1,2})/))        return ["eVar", g[1]].join("");
+    if(g=key.match(/h(\d)/))             return ["hier", g[1]].join("");
+    if(g=key.match(/l(\d)/))             return ["list", g[1]].join("");
+    if(key=="ch")                        return "channel";
+    if(key=="pe")                        return "interactionType";
+    if(key=="pev2")                      return "interactionDescription";
+    return key;
   };
   function translateQueryStringValue(value){
     return value=="lnk_d" ? "download" :
            value=="lnk_e" ? "exit"     :
            value=="lnk_o" ? "other"    : value;
   };
-  function decodeRequest(str){
-    var b, c, d = [], e, f, g;
-    b = str.match(/\/b\/ss\/([a-zA-Z0-9]*)\/([\d.]*)\/([a-zA-Z0-9-.]*)\/(s\d*)\?/);
-    if(!b) return {
-      src         : str
-    };
-    c = {
-      src         : str,
-      rsid        : b[1],
-      mobile      : b[2],
-      version     : b[3],
-      cacheBuster : b[4]
-    };
-    d = [
-      "pageName", "ch",   "c1",  "c2",  "c3", "c16",
-      "pe",       "pev2", "c17", "c60",
-      "c11",      "v11",  "c32", "l3",
-      "c30",      "c31",  "v10",
-      "c54",      "c72",
-      "v25",      "c34",  "v36", "v37", "v38",
-      "v12",      "v14",
-      "events",   "t"
-    ].reverse();
-    e = d.length;
-    while(e--){
-      f = str.match(new RegExp([
-        "\\/b\\/ss\\/.*&",
-        d[e],
-        "=([^&]*)"
-      ].join("")));
-      if(f) c[translateQueryStringKey(d[e])] = translateQueryStringValue(unescape(f[1]));
-    };
-    g                   = c.t.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/);
-    c.timestamp         = (function(t){
-      var tm = t.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/);
-      return Date.UTC(+tm[3],tm[2]-1,+tm[1],+tm[4],+tm[5],+tm[6]);
-    })(c.t);
-    c.t                 = [
+  function translateTimestamp(t, mode){
+    var g = t.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/);
+    return mode=="friendly" ? Date.UTC(
+      +g[3],   g[2]-1,     +g[1],
+      +g[4],  +g[5],       +g[6]
+    ) : [
       [g[1], (+g[2]+1+""), g[3]].join("/"),
       [g[4],   g[5],       g[6]].join(":"),
       "GMT"
     ].join(" ");
-    c.isPageView        = (function(){
-      return str.match(/\/b\/ss\/.*&pageName=([^&]*)/)!=null &&
-             str.match(/\/b\/ss\/.*&pageName=([^&]*)&.*pe=([^&]*)&.*pev2=([^&]*)/)==null
-    })();
-    c.isPageInteraction = (function(){
-      return str.match(/\/b\/ss\/.*&pageName=([^&]*)&.*pe=([^&]*)&.*pev2=([^&]*)/)!=null
-    })();
-    return c;              
   };
-  if(typeof str=="undefined"){
-    for(var i in window) if(i.match(/^s_i_/) && window[i].src) a.push(decodeRequest(window[i].src));
-    return a;
+  function decodeRequest(str){
+    var e, f, g, h;
+    e = str.match(/\/b\/ss\/([a-zA-Z0-9]*)\/([\d.]*)\/([a-zA-Z0-9-.]*)\/(s\d*)\?/);
+    if(!e) return {src : str};
+    f = {
+      src         : str,
+      rsid        : e[1],
+      mobile      : e[2],
+      version     : e[3],
+      cacheBuster : e[4]
+    };
+    if(b.fields==undefined || b.fields.constructor!==Array) return f;
+    if(b.fields.length==0) b.fields = buildFullList();
+    b.fields.map(function(g){
+      h = str.match(new RegExp(["\\/b\\/ss\\/.*&", g, "=([^&]*)"].join("")));
+      if(h) f[translateQueryStringKey(g)] = translateQueryStringValue(unescape(h[1]));
+    });
+    f.timestamp         = translateTimestamp(f.t);
+    f.t                 = translateTimestamp(f.t, "friendly");
+    f.isPageView        = !f.interactionType;
+    f.isPageInteraction = !f.isPageView;
+    return f;
+  };
+
+  if(b.request){
+    return decodeRequest(b.request);
   }else{
-    return decodeRequest(str);
+    c = new RegExp(["^s_i.*", s_c_il[0].visitorNamespace].join(""), "gi");
+    for(d in window) if(c.test(d)) a.push(decodeRequest(window[d].src));
+    return a;
   };
-})();
+})({
+  fields  : [],
+  request : undefined
+});
