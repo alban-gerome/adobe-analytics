@@ -66,9 +66,9 @@ Now this debugger can run in 2 modes:
 Now the developers can see immediately whether the code is firing and what sort of request they are looking at. It's also great to educate people on how the data gets packaged up and sent to Adobe.
 
 
-### DTM debugger (Google Chrome only)
+### DTM debugger (Google Chrome only) - updated Apr 4th 2017
 
-The DTM debugger is useful but very limited I think. I was wasting a huge amount of time beautifying the satelliteLib file to find which scripts were associated to which rules and then checking back in my network tab whether these had loaded and what was the URL of the marketing pixel in these DTM files.
+The DTM debugger is useful but very limited I think. I was wasting a huge amount of time beautifying the satelliteLib file to find which scripts were associated to which rules and then checking back in my network tab whether these had loaded and what was the URL of the marketing pixel in these DTM files. Adobe has announced at the US Summit the new version of DTM called "Launch". The various versions of my DTM debugger will probably no longer work but until then have fun with my scripts.
 
 At about the same time I was reading something on _console.table()_ as an alternative to _console.log()_ and presto I was typing things like _console.table(\_satellite.pageLoadRules)_ and thought it was quite nifty. You can even sort the table by a column of your choice!
 
@@ -93,31 +93,45 @@ You can customise the output at the end of the code:
 
 Set all 3 properties to _true_ to see the information for all  _satellite-*.js_ files.
 
-The script I presented at MeasureCamp supported more features and provided more information such as:
+Once you have familiarised yourselves with the mini version above feel free to try the version below. This is a closer version to the script I showed at MeasureCamp London on Mar 25th 2017. All features of the mini version are supported and work in the same way. Let's look at what's added in v0.4 now.
 
-* show whether the satellite file had loaded, the HTTP status code
-* show parts of the marketing pixel URL in the satellite file
-* show only certain types or rules, or the ones that did not fire or where the satellite file could not be found
-* show only the columns you need, or the top 10 rows or the last 20
+New columns:
 
-The code is here:
+* (Index) - if this non-sequential DTM content this column will the show _satellite-*.js_ file name or an auto-incrementing number
+* Script URL - satellite file absolute URL, this bullet point and the next 4 are only applicable to non-sequential DTM content
+* File Status - satellite file status code
+* File Size - measured in bytes
+* File Load Time - measured in milliseconds
+* File Contents - satellite file content peek, 100 characters only
+
+New options:
+
+* columns - put in an array the names of the columns you need or set to _undefined_ if you want them all but go buy a wider screen first
+* fromRow - from row number, you can use a negative number if you want the last 5 rows for example
+* untilRow - until row number; set to _undefined_ if you used a negative number for the _fromRow_ option as described above
+* showNotFiredOnly - set to _true_ to show only the rules that did not fire or _false_ to remove them or _undefined_ if you don't care
+* show404NotFoundOnly - set to _true_ to show only the satellite files that returned a 404 -not found HTTP error or _false_ to remove them or _undefined_ if you don't care
+* exportAsCSV - will generate a CSV file of the console.table.
+
+As a bonus I am also displaying a count of the rows displayed vs the total number rows available. The _fromRow_, _untilRow_, _showNotFiredOnly_ and _show404NotFoundOnly_ options will usually result in fewer rows being displayed. I have also removed the dependency on jQuery, v0.4 is written in plain vanilla Javasscript and does not depend on any framework anymore.
+
+Known issues:
+
+* Ellipses (...) get displayed in the _console.table_ cells when the content exceeds 100 characters. This may impact the _Script URL_ column and most certainly the _File Contents_ column. The content will be truncated right in the middle showing only the start and the end of the cell content with an ellipsis to replace the content that could not be displayed. This truncation is just a feature of console.table but the _exportAsCSV_ option will generate a CSV file with the full cell contents
+* Using the _File Contents_ column and the _exportAsCSV_ option will sometimes spill over several columns in the generated CSV file. I have taken extra precautions to handle commas in the file contents but on some rows it will still fail somehow. Any recommendations here are welcome. Until then I recommend listing the _File Contents_ columns in your options last so at least all the other columns are not getting shifted to the right.
+* Cross-domain Ajax errors may be displayed. Cross-domain Ajax is seen as a security risk so it's disabled by default. There's a Chrome extension that will let you enable/disable these. The link is there: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en
+
+Removed from v0.4 (for now):
+
+* Scope : I need to get my head around it more. This should summarise the conditions that will make the satellite file execute. For event-based rules this should also display the CSS selector, the event, the type of event bubling etc
+
+The script I presented at MeasureCamp supported more features which are only relevant to where I work. All features have now been ported to v0.4 except the _Scope_ column. The code is here:
 
 https://github.com/alban-gerome/adobe-analytics/blob/master/DTM-debugger
 
-Here are the options you can play with:
+All options supported on this version are supported from v0.4 onwards. Here are the columns available, again some of them might not work for you as the contents of your satellite files will be different.
 
-* columns - put in an array the names of the columns you need or set to _undefined_ if you want them all but go buy a wider screen first
-* fromRow - from row number
-* untilRow - until row number
-* showPageLoadRules - set to _true_ if you need the the page load rules, _false_ if not
-* showEventBasedRules - set to _true_ if you need the the event-based load rules, _false_ if not
-* showDirectCallRules - set to _true_ if you need the the direct call rules, _false_ if not
-* showNotFiredOnly - set to _true_ to show only the rules that did not fire or _false_ to remove them or _undefined_ if you don't care
-* show404NotFoundOnly - set to _true_ to show only the satellite files that returned a 404 -not found HTTP error or _false_ to remove them or _undefined_ if you don't care
-
-Here are the columns available, some might not work for you as the contents of your satellite files will be different
-
-* Index - row number, always there, can't be removed
+* Index - row number
 * Rule type - which type of rule the satellite file belongs to, i.e. a page load, event-based or direct call rule
 * Name - the name of the rule the satellite file belongs to
 * Has fired? - the rule condition was met. The satellite file may contain additional conditions that were not met. This column only concerns the rule conditions
@@ -128,15 +142,16 @@ Here are the columns available, some might not work for you as the contents of y
 * Script URL - satellite file absolute URL
 * Script Content - satellite file content peek, 100 characters only
 * Script HTTP Status - satellite file status code
+
+The following columns will probably not work for you. They are specific to where I work and I will no longer support them in any future version of the DTM debugger:
+
 * Script Img URL - peek at the URL of the marketing pixel in the satellite file, 100 characters only
 * Script Img Domain - domain of the URL of the marketing pixel in the satellite file
 * Script Img Path - path of the URL of the marketing pixel in the satellite file
 * Script Img Query - query string of the URL of the marketing pixel in the satellite file
 * Script Img Hash - hash of the URL of the marketing pixel in the satellite file
 
-One thing to note is that this script needs jQuery. Also you may run into cross-domain errors and get no information about the contents of the satellite file such as the HTTP status code. These are not show-stoppers, use these:
+One thing to note is that this script does need jQuery. Also you may run into cross-domain errors and get no information about the contents of the satellite file such as the HTTP status code. These are not show-stoppers, use these:
 
 * add jQuery on any page on your local machine: http://www.learningjquery.com/2009/04/better-stronger-safer-jquerify-bookmarklet
 * temporarily disable cross-domain errors on your local machine: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en (Chrome only)
-
-I am making this DTM debugger into a Chrome extension so watch this space. _console.table_ is amazing but you cannot display more than 100 characters per cell. This is one of the reasons why I have so many columns.
