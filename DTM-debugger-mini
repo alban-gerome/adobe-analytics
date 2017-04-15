@@ -1,3 +1,4 @@
+// DTM Debugger mini aka v0.3
 (function(obj){
   var a = {};
   function hasRuleFired(ruleName){
