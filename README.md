@@ -4,6 +4,15 @@ MeasureCamp London X - Mar 25th 2017
 3 scripts for Adobe Reports & Analytics and DTM
 -----------------------------------------------
 
+<a id="Table-of-contents"></a>
+### Table of contents:
+------------------------------------------------
+* [Show the URLs in the pages report with a bookmarklet](#Bookmarklet)
+* [Developers-friendly debugger for Reports & Analytics](#SiteCat)
+* [DTM debugger](#DTM)
+
+
+<a id="Bookmarklet"></a>
 ### Show the URLs in the pages report with a bookmarklet
 
 The Reports & Analytics interface has gone through a radical facelift in the past few years. The underlying architecture also seems to have changed and now uses:
@@ -32,7 +41,10 @@ To create the bookmark do this:
 
 Please note that exporting the report will not add the URLs to the exported report. Use a browser extension that lets you export HTML tables into CSV for example. Here's one for Chrome: https://chrome.google.com/webstore/detail/table-capture/iebpjdmgckacbodjpijphcplhebcmeop?hl=en
 
+[Back to the table of contents](#Table-of-contents)
 
+
+<a id="SiteCat"></a>
 ### Developers-friendly debugger for Reports & Analytics - updated Apr 4th 2017
 
 The Adobe DigitalPulse Debugger is an amazing tool but if you are using multiple Adobe tools such as Target on top of Reports & Analytics, many interactions etc it can quickly become a little too verbose. There's also a max limit on how many requests it can display, just under 100 I think.
@@ -153,7 +165,10 @@ To find one of these raw image requests on your website:
 
 Voil&agrave;!
 
+[Back to the table of contents](#Table-of-contents)
 
+
+<a id="DTM"></a>
 ### DTM debugger (Google Chrome only) - updated Apr 4th 2017
 
 The DTM debugger is useful but very limited I think. I was wasting a huge amount of time beautifying the satelliteLib file to find which scripts were associated to which rules and then checking back in my network tab whether these had loaded and what was the URL of the marketing pixel in these DTM files. Adobe has announced at the US Summit the new version of DTM called "Launch". The various versions of my DTM debugger will probably no longer work but until then have fun with my scripts.
@@ -243,3 +258,10 @@ One thing to note is that this script does need jQuery. Also you may run into cr
 
 * add jQuery on any page on your local machine: http://www.learningjquery.com/2009/04/better-stronger-safer-jquerify-bookmarklet
 * temporarily disable cross-domain errors on your local machine: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en (Chrome only)
+
+[Back to the table of contents](#Table-of-contents)
+
+Alban Gérôme
+16 Apr 2017
+
+Follow me on Twitter: <a href="https://twitter.com/albangerome?lang=en-gb" title="Follow Alban Gérôme on  Twitter">@albangerome</a>
