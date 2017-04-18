@@ -1,5 +1,5 @@
-// DTM Debugger v0.4
 (function(obj){
+  console.log("Please wait...");
   var a = {}, k, l = 0, m = 0, o, p, q, r = {};
   function cutTable(){
     for(k in a){
@@ -30,6 +30,9 @@
   function exportAsCSV(a, fileName){
     var b, c, d = [], e = {"File Name":""}, f, g;
     g = document.createElement("a");
+    function escapeforCSV(item){
+      return ["\"", (item + "").replace(/"/gi, "\"\""), "\""].join("");
+    };
     for(b in a) for(c in a[b]) e[c] = "";
     for(c in e){
       d.push(c);
@@ -41,9 +44,8 @@
       d.push(b);
       d.push(",");
       for(c in a[b]){
-        console.log();
-        d.push(["\"", a[b][c], "\""].join(""));
-        d.push(",");       
+        d.push(escapeforCSV(a[b][c]));
+        d.push(",");      
       };
       d.splice(-1, 1);
       d.push("\r\n");
@@ -142,7 +144,7 @@
   if(obj.showEventBasedRules) processRules("rules");
   if(obj.showDirectCallRules) processRules("directCallRules");
   for(k in a) m++;
-  for(k in a){
+ for(k in a){
     m--;
     q = isNaN(k - 0) ? getScriptURL(k) : undefined;
     if(q) getFile(a[k], q, m, function(a, m, data){
