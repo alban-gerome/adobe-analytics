@@ -104,14 +104,15 @@ Example 2: Good if you know the raw names of the different data point you need t
 <pre><code>
   (function(obj){
     // business logic hidden
-  })(["pageName", "ch",   "c1",  "c2",  "c3", "c16",
-      "pe",       "pev2", "c17", "c60",
-      "c11",      "v11",  "c32", "l3",
-      "c30",      "c31",  "v10",
-      "c54",      "c72",
-      "v25",      "c34",  "v36", "v37", "v38",
-      "v12",      "v14",
-      "events",   "t"
+  })([
+    "pageName", "ch",   "c1",  "c2",  "c3", "c16",
+    "pe",       "pev2", "c17", "c60",
+    "c11",      "v11",  "c32", "l3",
+    "c30",      "c31",  "v10",
+    "c54",      "c72",
+    "v25",      "c34",  "v36", "v37", "v38",
+    "v12",      "v14",
+    "events",   "t"
   ]});
   
 </code></pre>
@@ -122,14 +123,15 @@ Example 2 syntax variant, slightly more verbose:
   (function(obj){
     // business logic hidden
   })({
-    fields  : ["pageName", "ch",   "c1",  "c2",  "c3", "c16",
-               "pe",       "pev2", "c17", "c60",
-               "c11",      "v11",  "c32", "l3",
-               "c30",      "c31",  "v10",
-               "c54",      "c72",
-               "v25",      "c34",  "v36", "v37", "v38",
-               "v12",      "v14",
-               "events",   "t"
+    fields  : [
+      "pageName", "ch",   "c1",  "c2",  "c3", "c16",
+      "pe",       "pev2", "c17", "c60",
+      "c11",      "v11",  "c32", "l3",
+      "c30",      "c31",  "v10",
+      "c54",      "c72",
+      "v25",      "c34",  "v36", "v37", "v38",
+      "v12",      "v14",
+      "events",   "t"
     ],
     request : undefined
   });
@@ -169,7 +171,7 @@ Voil&agrave;!
 
 
 <a id="DTM"></a>
-### DTM debugger (Google Chrome only) - updated Apr 4th 2017
+### DTM debugger (Google Chrome only) - updated Apr 18th 2017
 
 The DTM debugger is useful but very limited I think. I was wasting a huge amount of time beautifying the satelliteLib file to find which scripts were associated to which rules and then checking back in my network tab whether these had loaded and what was the URL of the marketing pixel in these DTM files. Adobe has announced at the US Summit the new version of DTM called "Launch". The various versions of my DTM debugger will probably no longer work but until then have fun with my scripts.
 
@@ -221,7 +223,7 @@ As a bonus I am also displaying a count of the rows displayed vs the total numbe
 Known issues:
 
 * Ellipses (...) get displayed in the _console.table_ cells when the content exceeds 100 characters. This may impact the _Script URL_ column and most certainly the _File Contents_ column. The content will be truncated right in the middle showing only the start and the end of the cell content with an ellipsis to replace the content that could not be displayed. This truncation is just a feature of console.table but the _exportAsCSV_ option will generate a CSV file with the full cell contents
-* Using the _File Contents_ column and the _exportAsCSV_ option will sometimes spill over several columns in the generated CSV file. I have taken extra precautions to handle commas in the file contents but on some rows it will still fail somehow. Any recommendations here are welcome. Until then I recommend listing the _File Contents_ columns in your options last so at least all the other columns are not getting shifted to the right.
+~~* Using the _File Contents_ column and the _exportAsCSV_ option will sometimes spill over several columns in the generated CSV file. I have taken extra precautions to handle commas in the file contents but on some rows it will still fail somehow. Any recommendations here are welcome. Until then I recommend listing the _File Contents_ columns in your options last so at least all the other columns are not getting shifted to the right.~~ Resolved on 18 Apr 2017
 * Cross-domain Ajax errors may be displayed. Cross-domain Ajax is seen as a security risk so it's disabled by default. There's a Chrome extension that will let you enable/disable these. The link is there: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en
 
 Removed from v0.4 (for now):
@@ -262,6 +264,6 @@ One thing to note is that this script does need jQuery. Also you may run into cr
 [Back to the table of contents](#Table-of-contents)
 
 Alban Gérôme
-16 Apr 2017
+18 Apr 2017
 
 Follow me on Twitter: <a href="https://twitter.com/albangerome?lang=en-gb" title="Follow Alban Gérôme on  Twitter">@albangerome</a>
