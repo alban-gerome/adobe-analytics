@@ -223,6 +223,8 @@ Set all 3 properties to _true_ to see the information for all  _satellite-*.js_ 
 
 Once you have familiarised yourselves with the mini version above feel free to try the version below. This is a closer version to the script I showed at MeasureCamp London on Mar 25th 2017. All features of the mini version are supported and work in the same way. Let's look at what's added in v0.4 now.
 
+https://github.com/alban-gerome/adobe-analytics/blob/master/DTM%20debugger%20v0.4.js
+
 New columns:
 
 * (Index) - if this non-sequential DTM content this column will the show _satellite-*.js_ file name or an auto-incrementing number
