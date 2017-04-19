@@ -68,7 +68,7 @@ Each of these variables contain an img tag and the value of the src attribute is
 
 When I give a tagging guide to the developers I give them a spreadsheet where each row can be a bunch of tracking requirements for a single page view or a single page interaction. I ask the developers to provide evidence that the code was displayed, i.e. the raw image request. Unfortunately they often provide me with the requests for another tracking requirement so I have to reorder them, get rid of the duplicate raw requests and see what's missing. Eventually I wrote code that returns a JSON object showing clearly whether this is a page view or a page element interaction and which sort of interaction it was. The code is here:
 
-https://github.com/alban-gerome/adobe-analytics/blob/master/SC-debugger
+https://github.com/alban-gerome/adobe-analytics/blob/master/SC%20debugger%200.4.js
 
 Now this debugger can run in 2 modes:
 
