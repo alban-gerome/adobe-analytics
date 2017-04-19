@@ -77,7 +77,7 @@ Now this debugger can run in 2 modes:
 
 Now the developers can see immediately whether the code is firing and what sort of request they are looking at. It's also great to educate people on how the data gets packaged up and sent to Adobe.
 
-The latest version is v0.2, let's look at the changes and fixes:
+The latest version is v0.4, let's look at the changes and fixes:
 
 * The debugger will now take either a string of an image request like before and/or an array of the exact data points you need. My previous version had hard-coded values that won't work for you, that's fixed
 * In addition to the array of data points you need you can pass an empty array and this debugger will show you something similar information to what the Adobe DigitalPulse Debugger would show
