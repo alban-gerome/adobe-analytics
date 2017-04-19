@@ -6,7 +6,7 @@
     case String   : b = {request : obj}; break;
   };
   function buildFullList(){
-    var g = ["pageName", "ch", "products", "campaign", "t"], h;
+    var g = ["pageName", "ch", "products", "campaign", "t", "pe", "pev1", "pev2"], h;
     for(h=1; h<=100;  h++) g.push(["c",     h].join(""));
     for(h=1; h<=255;  h++) g.push(["v",     h].join(""));
     for(h=1; h<=5;    h++) g.push(["h",     h].join(""));
@@ -15,18 +15,23 @@
     return g;
   };
   function translateToRawKey(key){
-    // to do:
-   return key;
+    if(/^prop\d{1,2}$/.test(key) && key.match(/\d+/gi)[0]-0<=75) return key.replace("prop",         "c");
+    if(/^eVar\d{1,2}$/.test(key) && key.match(/\d+/gi)[0]-0<=75) return key.replace("eVar",         "v");
+    if(/^hier[12345]$/.test(key))                                return key.replace("hier",         "h");
+    if(/^list[123]$/.test(key))                                  return key.replace("list",         "l");
+    if(/^channel$/.test(key))                                    return key.replace("channel",      "ch");
+    if(/^currencyCode$/.test(key))                               return key.replace("currencyCode", "cc");
+    return key;
   };
   function translateQueryStringKey(key){
     var g = "";
-    if(g=key.match(/c(\d{1,2})/))        return ["prop", g[1]].join("");
-    if(g=key.match(/v(\d{1,2})/))        return ["eVar", g[1]].join("");
-    if(g=key.match(/h(\d)/))             return ["hier", g[1]].join("");
-    if(g=key.match(/l(\d)/))             return ["list", g[1]].join("");
-    if(key=="ch")                        return "channel";
-    if(key=="pe")                        return "interactionType";
-    if(key=="pev2")                      return "interactionDescription";
+    if(g=key.match(/c(\d{1,2})/)) return ["prop", g[1]].join("");
+    if(g=key.match(/v(\d{1,2})/)) return ["eVar", g[1]].join("");
+    if(g=key.match(/h(\d)/))      return ["hier", g[1]].join("");
+    if(g=key.match(/l(\d)/))      return ["list", g[1]].join("");
+    if(key=="ch")                 return "channel";
+    if(key=="pe")                 return "interactionType";
+    if(key=="pev2")               return "interactionDescription";
     return key;
   };
   function translateQueryStringValue(value){
@@ -88,6 +93,6 @@
     return a;
   };
 })({
-  fields  : [],
+  fields  : ["pageName"],
   request : undefined
 });
