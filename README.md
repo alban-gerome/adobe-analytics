@@ -6,7 +6,7 @@ MeasureCamp London X - Mar 25th 2017
 
 <a id="Table-of-contents"></a>
 ### Table of contents:
-------------------------------------------------
+----------------------
 * [Show the URLs in the pages report with a bookmarklet](#Bookmarklet)
 * [Developers-friendly debugger for Reports & Analytics](#SiteCat)
 * [DTM debugger](#DTM)
@@ -187,6 +187,12 @@ To find one of these raw image requests on your website:
 5. Load (or reload) the page
 6. Right click on one of the matches
 7. Copy and Copy link address
+
+Known issue:
+------------
+
+* Context data is not supported yet, I forgot, my bad! Coming soon
+
 
 Voil&agrave;!
 
