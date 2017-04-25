@@ -140,6 +140,10 @@
         delete m.unexpected[l];
       });
     };
+    if(JSON.stringify(m.ok)=="{}")         delete m.ok;
+    if(JSON.stringify(m.wrong)=="{}")      delete m.wrong;
+    if(JSON.stringify(m.missing)=="{}")    delete m.missing;
+    if(JSON.stringify(m.unexpected)=="{}") delete m.unexpected;
     return m;
   };
   if(b.request){
