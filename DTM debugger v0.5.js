@@ -101,7 +101,7 @@
       missing    : {},
       unexpected : {}
     };
-    var n = actual.contextData, o = expected.contextData;
+    var n = actual.contextData, o = expected.contextData, p;
     for(k in actual) if(k!="contextData"){
       for(l in expected) if(l!="contextData"){
         if(k in expected && l in actual && k==l && expected[l]==actual[k]) m.ok[k]                     = expected[l];
@@ -130,20 +130,17 @@
                                                                            m.unexpected.contextData    = o;
     };
     for(k in m) if(k[m]=="contextData"){
-      for(l in k[m]) if(k[m][l]==undefined) delete k[m][l];
+      for(l in k[m]) if(k[m][l]==undefined)    delete k[m][l];
     }else{
-      if(k[m]==undefined)                   delete k[m];
+      if(k[m]==undefined)                      delete k[m];
       [
         "cacheBuster", "isPageInteraction", "isPageView", "isTooLong", "length", "source",
         "t",           "timestamp",         "version",    "pe",        "pev1",   "pev2"
       ].map(function(l){
         delete m.unexpected[l];
       });
-    };
-    if(JSON.stringify(m.ok)=="{}")         delete m.ok;
-    if(JSON.stringify(m.wrong)=="{}")      delete m.wrong;
-    if(JSON.stringify(m.missing)=="{}")    delete m.missing;
-    if(JSON.stringify(m.unexpected)=="{}") delete m.unexpected;
+    };    
+    for(p in m) if(JSON.stringify(m[p])=="{}") delete m[p];
     return m;
   };
   if(b.request){
