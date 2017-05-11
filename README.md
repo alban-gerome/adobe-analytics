@@ -29,15 +29,15 @@ Interestingly these page name links are ordinary links with a URL, the default U
 * split each cell into 2 cells, one with the original page name link and one with the URL
 * turn the script into a bookmarklet
 
+To create the bookmarklet do this:
+
+* Ensure that your bookmarks toolbar is visible in your browser
+* Drag this link into your bookmarks toolbar: <a href="
+javascript:void(jQuery("a[href][onclick]").each(function(){var b=jQuery(this);var c=b.attr("onclick");var z="<td width='50%' style='vertical-align:top;word-wrap:break-word'>";var i=b.parent().html();var a=b.attr("href");var g="</td>";var d=["<table border='0' style='table-layout:fixed' width='100%'><tr>",z,i,g,z,a,g,"</tr></table>"].join("");if(/^return\sdisplayPagesMenu\(event,\s\d*,\s'.*'\)$/.test(c)) b.parent().html(d)}))">Show URL</a>
+
 The code for the bookmarklet is here:
 
-https://github.com/alban-gerome/adobe-analytics/blob/master/show-page-name
-
-To create the bookmark do this:
-
-* Bookmark any page in your browser
-* Place the bookmark in your bookmarks toolbar, make sure that the toolbar is visible
-* Edit the URL and replace it with the one above starting with "javascript:void..."
+https://github.com/alban-gerome/adobe-analytics/blob/master/show-page-url
 
 Please note that exporting the report will not add the URLs to the exported report. Use a browser extension that lets you export HTML tables into CSV for example. Here's one for Chrome: https://chrome.google.com/webstore/detail/table-capture/iebpjdmgckacbodjpijphcplhebcmeop?hl=en
 
