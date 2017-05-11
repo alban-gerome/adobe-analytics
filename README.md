@@ -32,7 +32,11 @@ Interestingly these page name links are ordinary links with a URL, the default U
 To create the bookmarklet do this:
 
 * Ensure that your bookmarks toolbar is visible in your browser
-* Drag this link into your bookmarks toolbar: [Show URL](javascript:void(jQuery('a[href][onclick]').each(function(){var b=jQuery(this);var c=b.attr("onclick");var z="<td width='50%' style='vertical-align:top;word-wrap:break-word'>";var i=b.parent().html();var a=b.attr("href");var g="</td>";var d=["<table border='0' style='table-layout:fixed' width='100%'><tr>",z,i,g,z,a,g,"</tr></table>"].join("");if(/^return\sdisplayPagesMenu\(event,\s\d*,\s'.*'\)$/.test(c)) b.parent().html(d)})))
+* Drag this link into your bookmarks toolbar: [Show URL](javascript:void(console.log()))
+
+
+
+[Show URL]: javascript:void(jQuery('a[href][onclick]').each(function(){var b=jQuery(this);var c=b.attr("onclick");var z="<td width='50%' style='vertical-align:top;word-wrap:break-word'>";var i=b.parent().html();var a=b.attr("href");var g="</td>";var d=["<table border='0' style='table-layout:fixed' width='100%'><tr>",z,i,g,z,a,g,"</tr></table>"].join("");if(/^return\sdisplayPagesMenu\(event,\s\d*,\s'.*'\)$/.test(c)) b.parent().html(d)}))) "Show URL"
 
 The code for the bookmarklet is here:
 
