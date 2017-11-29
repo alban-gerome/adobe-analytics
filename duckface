@@ -1,0 +1,57 @@
+(function(){
+  var a, b, c, d, e, f, g, h, i, j, k, l, m, n;
+
+  a = function(){
+    b = "";
+    for(c in window) if(/^s_i_/.test(c)) b = window[c].src;
+    return b;
+  };
+  if(a()=="") return;
+
+  d = {
+    page : a()
+  };
+  e = document.body.querySelectorAll("*");
+  if(e.length==0){
+    d.interactions = [];
+  }else{
+    return d;
+  };
+
+  f = {};
+  g = ["blur", "change", "click"];
+  h = function(i){
+    i.element.dispatchEvent(new MouseEvent(
+      i.event, {
+        bubbles    : !0,
+        cancelable : !0
+      }
+    ));
+  };
+  j = 0;
+  g.map(function(k){
+    document.body.addEventListener(k, function(){
+      event.preventDefault();
+    });
+    for(l = 0; l < e.length; l++){
+      s_c_il[0].contextData[testCaseKey] = j + "";
+      h(c[j] = {
+        element : e[l],
+        event   : k
+      });
+      j++;
+    };
+  });
+
+  for(l in window) if(/^s_i_/.test(l)){
+    window[l].src.match(/&c\.&(.*)&\.c.*&/)[1].split("&").map(function(m){
+      if(n = m.match(/testCaseKey=(\d*)/)){
+        d.interactions.push({
+          element : c[+n].element,
+          event   : c[+n].event,
+          request : m
+        });
+      }; 
+    });
+  };
+})()
