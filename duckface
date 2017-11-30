@@ -12,11 +12,11 @@
     page : a()
   };
   e = document.body.querySelectorAll("*");
-  if(e.length==0){
-    d.interactions = [];
-  }else{
-    return d;
-  };
+  if(e.length==0) return d;
+  d.interactions = [];
+  console.log("Please make duckfaces while you wait");
+  s_c_il[0].un             = "baruktestabc"; 
+  s_c_il[0].linkTrackVars += ",contextData.testCaseKey"; 
 
   f = {};
   g = ["blur", "change", "click"];
@@ -34,8 +34,8 @@
       event.preventDefault();
     });
     for(l = 0; l < e.length; l++){
-      s_c_il[0].contextData[testCaseKey] = j + "";
-      h(c[j] = {
+      s_c_il[0].contextData["testCaseKey"] = j + "";
+      h(f[j] = {
         element : e[l],
         event   : k
       });
@@ -47,11 +47,13 @@
     window[l].src.match(/&c\.&(.*)&\.c.*&/)[1].split("&").map(function(m){
       if(n = m.match(/testCaseKey=(\d*)/)){
         d.interactions.push({
-          element : c[+n].element,
-          event   : c[+n].event,
+          element : f[+n].element,
+          event   : f[+n].event,
           request : m
         });
       }; 
     });
   };
+
+  return d;
 })()
