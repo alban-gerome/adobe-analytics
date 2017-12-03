@@ -1,5 +1,5 @@
 (function(){
-  var a, b, c, d, e, f, g, h, i, j, k, l, m, n;
+  var a, b, c, d, e, f, g, h, i, j, k, l, m, n, o;
 
   a = function(){
     b = "";
@@ -15,12 +15,26 @@
   if(e.length==0) return d;
   d.interactions = [];
   console.log("Please make duckfaces while you wait");
-  s_c_il[0].un             = "baruktestabc"; 
-  s_c_il[0].linkTrackVars += ",contextData.testCaseKey"; 
+  s_c_il[0].un = "baruktestabc";
+  s_c_il[0].tl = function (o, t, n, vo, f){
+    var s = this;
+    if(s.contextData.testCaseKey) s.linkTrackVars = s.apl(s.linkTrackVars,"contextData.testCaseKey",",",1);
+    s.lnk = o;
+    s.linkType = t;
+    s.linkName = n;
+    if(f){
+      s.bct = o;
+      s.bcf = f;
+    };
+    s.t(vo)
+  }; 
 
   f = {};
   g = ["blur", "change", "click"];
   h = function(i){
+    i.element.addEventListener(i.event, function(){
+      event.preventDefault();
+    });
     i.element.dispatchEvent(new MouseEvent(
       i.event, {
         bubbles    : !0,
@@ -30,9 +44,6 @@
   };
   j = 0;
   g.map(function(k){
-    document.body.addEventListener(k, function(){
-      event.preventDefault();
-    });
     for(l = 0; l < e.length; l++){
       s_c_il[0].contextData["testCaseKey"] = j + "";
       h(f[j] = {
@@ -44,16 +55,16 @@
   });
 
   for(l in window) if(/^s_i_/.test(l)){
-    window[l].src.match(/&c\.&(.*)&\.c.*&/)[1].split("&").map(function(m){
-      if(n = m.match(/testCaseKey=(\d*)/)){
-        d.interactions.push({
-          element : f[+n].element,
-          event   : f[+n].event,
-          request : m
-        });
-      }; 
-    });
+    m = window[l].src;
+    if(n = m.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
+      o = f[+n[1]];
+      d.interactions.push({
+        element : o.element,
+        event   : o.event,
+        request : m
+      });
+    };
   };
 
   return d;
-})()
+})();
