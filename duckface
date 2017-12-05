@@ -82,10 +82,10 @@
         if(w=="events") linkTrackEvents2 = w;
       };
     });
-    t.timestamp         = j(t.t);
-    t.t                 = j(t.t, "friendly");
-    t.linkTrackVars     = t.linkTrackVars   || t.linkTrackVars2.join(",");
-    t.linkTrackEvents   = t.linkTrackEvents || t.linkTrackEvents2;
+    t.timestamp        = j(t.t);
+    t.t                = j(t.t, "friendly");
+    t.linkTrackVars    = t.linkTrackVars   || t.linkTrackVars2.join(",");
+    t.linkTrackEvents  = t.linkTrackEvents || t.linkTrackEvents2;
     delete t.linkTrackVars2;
     delete t.linkTrackEvents2;
     if(!/&pe(v2)?=/.test(p)){
