@@ -54,13 +54,15 @@
     s = p.match(/\/b\/ss\/([a-zA-Z0-9]*)\/([\d.]*)\/([a-zA-Z0-9-.]*)\/(s\d*)\?/);
     if(!s) return {src : p};
     t = {
-      src         : p,
-      rsid        : s[1],
-      mobile      : s[2],
-      version     : s[3],
-      cacheBuster : s[4],
-      length      : p.length,
-      isTooLong   : p.length > 2083
+      src              : p,
+      rsid             : s[1],
+      mobile           : s[2],
+      version          : s[3],
+      cacheBuster      : s[4],
+      length           : p.length,
+      isTooLong        : p.length > 2083,
+      linkTrackVars2   : [],
+      linkTrackEvents2 : "None"
     };
     u = a();
     if(q){
@@ -74,11 +76,22 @@
       if(q) y = q[1].match(new RegExp([w, "=([^&?]*)"].join("")));
       if(x) t[f(w)] = h(unescape(x[1]));
       if(y) t.contextData[w] = unescape(y[1]);
+      if(/&pe(v2)?=/.test(p) && !/^(pageName|t|pe|pev2)$/.test(w)){
+        if(x) t.linkTrackVars2.push(f(w));
+        if(y) t.linkTrackVars2.push(["contextData", w].join("."));
+        if(w=="events") linkTrackEvents2 = w;
+      };
     });
     t.timestamp         = j(t.t);
     t.t                 = j(t.t, "friendly");
-    t.isPageView        = !t.interactionType;
-    t.isPageInteraction = !t.isPageView;
+    t.linkTrackVars     = t.linkTrackVars   || t.linkTrackVars2.join(",");
+    t.linkTrackEvents   = t.linkTrackEvents || t.linkTrackEvents2;
+    delete t.linkTrackVars2;
+    delete t.linkTrackEvents2;
+    if(!/&pe(v2)?=/.test(p)){
+      delete t.linkTrackVars;
+      delete t.linkTrackEvents;
+    };
     return t;
   };
 
