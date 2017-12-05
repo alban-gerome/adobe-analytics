@@ -1,6 +1,6 @@
 (function(){
   var a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
-  var A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U;
+  var A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
 
   function a(){
     var b = ["pageName", "ch", "products", "campaign", "t", "pe", "pev1", "pev2"], c;
@@ -121,28 +121,56 @@
         cancelable : !0
       }
     ));
+
   };
 
-  O = 0;
-  L.map(function(Q){
-    for(P=0; P<D.length; P++){
-      s_c_il[0].contextData["testCaseKey"] = O + "";
-      M(K[O] = {
-        element : D[P],
-        event   : Q
+  var O = function(P){
+    var Q = [], R, S;
+    while(P.parentNode){
+      if(P.id){
+        Q.unshift("#" + P.id);
+        break;
+      }else{
+        if(P==document.body){
+          Q.unshift(P.tagName.toLowerCase());
+        }else{
+          R = 1;
+          S = P;
+          while(S = S.previousElementSibling) R++;
+          Q.unshift([
+            P.tagName.toLowerCase(),
+            ":nth-child(",
+            R,
+            ")"
+          ].join(""));
+        };
+        P = P.parentNode;
+      };
+    };
+    return Q.join(">");
+  };
+
+  T = 0;
+  L.map(function(V){
+    for(U=0; U<D.length; U++){
+      s_c_il[0].contextData["testCaseKey"] = T + "";
+      M(K[T] = {
+        element  : D[U],
+        selector : O(D[U]),
+        event    : V
       });
-      O++;
+      T++;
     };
   });
 
-  for(R in window) if(/^s_i_/.test(R)){
-    S = window[R].src;
-    if(T = S.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
-      U = K[+T[1]];
+  for(W in window) if(/^s_i_/.test(W)){
+    X = window[W].src;
+    if(Y = X.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
+      Z = K[+Y[1]];
       C.interactions.push({
-        element : U.element,
-        event   : U.event,
-        request : o(S)
+        selector : Z.selector,
+        event    : Z.event,
+        request  : o(X)
       });
     };
   };
