@@ -120,6 +120,7 @@
       J.bcf = I;
     };
     J.t(H);
+    K[J.contextData.testCaseKey].callback = I + "";
   };
 
   K = {};
@@ -182,7 +183,8 @@
       C.interactions.push({
         selector : Z.selector,
         event    : Z.event,
-        request  : o(X)
+        request  : o(X),
+        callback : Z.callback
       });
     };
   };
