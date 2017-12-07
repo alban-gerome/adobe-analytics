@@ -79,6 +79,13 @@
     t.timestamp        = j(t.t);
     t.t                = j(t.t, "friendly");
     t.linkTrackVars    = t.linkTrackVars   || t.linkTrackVars2.join(",");
+    t.linkTrackVars    = t.linkTrackVars
+                          .replace("fid",                     "")
+                          .replace("currencyCode",            "")
+                          .replace("contextData.testCaseKey", "")
+                          .replace(/,{2,}/g, ",")
+                          .replace(/^,/g, "")
+                          .replace(/,$/g, "");
     t.linkTrackEvents  = t.linkTrackEvents || t.linkTrackEvents2;
     delete t.linkTrackVars2;
     delete t.linkTrackEvents2;
@@ -140,7 +147,7 @@
         S.unshift("#" + R.id);
         break;
       }else{
-        if(R==document.body){
+        if(R==R.ownerDocument.documentElement){
           S.unshift(R.tagName.toLowerCase());
         }else{
           T = 1;
@@ -159,10 +166,18 @@
     return S.join(">");
   };
 
-  var V = function(W, X){
-    if(!(W.constructor===Object&&X.constructor===Object)) return;
-    for(var Y in X) W[Y] = X[Y];
-    return W;
+  var V = function(){
+    var W = arguments, X, Y;
+    if(W.length==0) return;
+    if(W.length==1){
+      if(W[0].constructor===Object) return W[0];
+      return;
+    };
+    for(X=1; X<W.length; X++){
+      if(W[X].constructor!==Object) return;
+      for(Y in W[X]) W[0][Y] = W[X][Y];
+    };
+    return W[0];
   };
 
   Z = 0;
@@ -183,13 +198,18 @@
     if(ee = dd.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
       ff = E[+ee[1]];
       gg = M[+ee[1]];
-      C.interactions.push(V(V({
-        element  : gg.element,
-        event    : gg.event,
-        selector : gg.selector
-      }, o(dd)), (function(){
-        return ff ? {callback : ff.callback} : {}; 
-      })()));
+      C.interactions.push(
+        V({
+          element  : gg.element,
+          event    : gg.event,
+          selector : gg.selector
+        },
+        o(dd),
+        {rsid      : C.page.rsid},
+        (function(){
+          return ff ? {callback : ff.callback} : {}; 
+        })())
+      );
     };
   };
 
