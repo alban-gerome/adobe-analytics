@@ -1,35 +1,29 @@
 (function(){
-  var a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
-  var A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
+  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, V, Z, cc;
 
   function a(){
-    var b = ["pageName", "ch", "products", "campaign", "t", "pe", "pev1", "pev2"], c;
-    for(c=1; c<=100;  c++) b.push(["c",     c].join(""));
-    for(c=1; c<=255;  c++) b.push(["v",     c].join(""));
-    for(c=1; c<=5;    c++) b.push(["h",     c].join(""));
-    for(c=1; c<=3;    c++) b.push(["l",     c].join(""));
-    for(c=1; c<=1000; c++) b.push(["event", c].join(""));
-    return b;
+    var b = s_c_il[0];
+    return ["t"].concat(b.lightProfileID ? s.va_m : s.va_t); 
   };
-  function d(e){
-    if(/^prop\d{1,2}$/.test(e) && e.match(/\d+/gi)[0]-0<=75) return e.replace("prop",         "c");
-    if(/^eVar\d{1,2}$/.test(e) && e.match(/\d+/gi)[0]-0<=75) return e.replace("eVar",         "v");
-    if(/^hier[12345]$/.test(e))                              return e.replace("hier",         "h");
-    if(/^list[123]$/.test(e))                                return e.replace("list",         "l");
-    if(/^channel$/.test(e))                                  return e.replace("channel",      "ch");
-    if(/^currencyCode$/.test(e))                             return e.replace("currencyCode", "cc");
-    return e;
+  function c(d){
+    if(/^prop\d{1,2}$/.test(d) && d.match(/\d+/gi)[0]-0<=75) return d.replace("prop",         "c");
+    if(/^eVar\d{1,2}$/.test(d) && d.match(/\d+/gi)[0]-0<=75) return d.replace("eVar",         "v");
+    if(/^hier[12345]$/.test(d))                              return d.replace("hier",         "h");
+    if(/^list[123]$/.test(d))                                return d.replace("list",         "l");
+    if(/^channel$/.test(d))                                  return d.replace("channel",      "ch");
+    if(/^currencyCode$/.test(d))                             return d.replace("currencyCode", "cc");
+    return d;
   };
-  function f(g){
-    var h = "";
-    if(h=g.match(/^c(\d{1,2})$/)) return ["prop", h[1]].join("");
-    if(h=g.match(/^v(\d{1,2})$/)) return ["eVar", h[1]].join("");
-    if(h=g.match(/^h(\d)$/))      return ["hier", h[1]].join("");
-    if(h=g.match(/^l(\d)$/))      return ["list", h[1]].join("");
-    if(g=="ch")                   return  "channel";
-    if(g=="pe")                   return  "interactionType";
-    if(g=="pev2")                 return  "interactionDescription";
-    return g;
+  function e(f){
+    var g = "";
+    if(g=f.match(/^c(\d{1,2})$/)) return ["prop", g[1]].join("");
+    if(g=f.match(/^v(\d{1,2})$/)) return ["eVar", g[1]].join("");
+    if(g=f.match(/^h(\d)$/))      return ["hier", g[1]].join("");
+    if(g=f.match(/^l(\d)$/))      return ["list", g[1]].join("");
+    if(f=="ch")                   return  "channel";
+    if(f=="pe")                   return  "interactionType";
+    if(f=="pev2")                 return  "interactionDescription";
+    return f;
   };
   function h(i){
     return i=="lnk_d" ? "download" :
@@ -72,12 +66,12 @@
       });
     };
     u.map(function(w){
-      x = r.match(new RegExp(["\\/b\\/ss\\/.*&", d(w), "=([^&]*)"].join("")));
+      x = r.match(new RegExp(["\\/b\\/ss\\/.*&", c(w), "=([^&]*)"].join("")));
       if(q) y = q[1].match(new RegExp([w, "=([^&?]*)"].join("")));
-      if(x) t[f(w)] = h(unescape(x[1]));
+      if(x) t[e(w)] = h(unescape(x[1]));
       if(y) t.contextData[w] = unescape(y[1]);
       if(/&pe(v2)?=/.test(p) && !/^(pageName|t|pe|pev2)$/.test(w)){
-        if(x) t.linkTrackVars2.push(f(w));
+        if(x) t.linkTrackVars2.push(e(w));
         if(y) t.linkTrackVars2.push(["contextData", w].join("."));
         if(w=="events") linkTrackEvents2 = w;
       };
@@ -108,84 +102,94 @@
   if(D.length==0) return C;
   C.interactions = [];
   console.log("Please make duckfaces while you wait");
-  s_c_il[0].un = "baruktestabc";
-  s_c_il[0].tl = function(E, F, G, H, I){
-    var J = this;
-    if(J.contextData.testCaseKey) J.linkTrackVars = J.apl(J.linkTrackVars, "contextData.testCaseKey", ",", 1);
-    J.lnk = E;
-    J.linkType = F;
-    J.linkName = G;
-    if(I){
-      J.bct = E;
-      J.bcf = I;
+  E = {};
+  F = s_c_il[0];
+  F.un = "baruktestabc";
+  F.tl = function(G, H, I, J, K){
+    var L = this;
+    if(L.contextData.testCaseKey) L.linkTrackVars = L.apl(L.linkTrackVars, "contextData.testCaseKey", ",", 1);
+    L.lnk = G;
+    L.linkType = H
+    L.linkName = I;
+    if(K){
+      L.bct = E;
+      L.bcf = K;
+      E[L.contextData.testCaseKey].callback = K + "";
     };
-    J.t(H);
-    K[J.contextData.testCaseKey].callback = I + "";
+    L.t(J);
   };
 
-  K = {};
-  L = ["blur", "change", "click"];
-  M = function(N){
-    N.element.addEventListener(N.event, function(){
+  M = {};
+  N = ["blur", "change", "click"];
+  O = function(P){
+    P.element.addEventListener(P.event, function(){
       event.preventDefault();
     });
-    N.element.dispatchEvent(new MouseEvent(
-      N.event, {
+    P.element.dispatchEvent(new MouseEvent(
+      P.event, {
         bubbles    : !0,
         cancelable : !0
       }
     ));
   };
 
-  var O = function(P){
-    var Q = [], R, S;
-    while(P.parentNode){
-      if(P.id){
-        Q.unshift("#" + P.id);
+  var Q = function(R){
+    var S = [], T, U;
+    while(R.parentNode){
+      if(R.id){
+        S.unshift("#" + R.id);
         break;
       }else{
-        if(P==document.body){
-          Q.unshift(P.tagName.toLowerCase());
+        if(R==document.body){
+          S.unshift(R.tagName.toLowerCase());
         }else{
-          R = 1;
-          S = P;
-          while(S = S.previousElementSibling) R++;
-          Q.unshift([
-            P.tagName.toLowerCase(),
+          T = 1;
+          U = R;
+          while(U = U.previousElementSibling) T++;
+          S.unshift([
+            R.tagName.toLowerCase(),
             ":nth-child(",
-            R,
+            T,
             ")"
           ].join(""));
         };
-        P = P.parentNode;
+        R = R.parentNode;
       };
     };
-    return Q.join(">");
+    return S.join(">");
   };
 
-  T = 0;
-  L.map(function(V){
-    for(U=0; U<D.length; U++){
-      s_c_il[0].contextData["testCaseKey"] = T + "";
-      M(K[T] = {
-        element  : D[U],
-        selector : O(D[U]),
-        event    : V
+  var V = function(W, X){
+    if(!(W.constructor===Object&&X.constructor===Object)) return;
+    for(var Y in X) W[Y] = X[Y];
+    return W;
+  };
+
+  Z = 0;
+  N.map(function(aa){
+    for(bb=0; bb<D.length; bb++){
+      s_c_il[0].contextData["testCaseKey"] = Z + "";
+      O(M[Z] = {
+        element  :   D[bb],
+        selector : Q(D[bb]),
+        event    : aa
       });
-      T++;
+      Z++;
     };
   });
 
-  for(W in window) if(/^s_i_/.test(W)){
-    X = window[W].src;
-    if(Y = X.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
-      Z = K[+Y[1]];
-      C.interactions.push({
-        selector : Z.selector,
-        event    : Z.event,
-        request  : o(X),
-        callback : Z.callback
-      });
+  for(cc in window) if(/^s_i_/.test(cc)){
+    dd = window[cc].src;
+    if(ee = dd.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
+      ff = E[+ee[1]];
+      gg = M[+ee[1]];
+      C.interactions.push(V(V({
+        element  : gg.element,
+        event    : gg.event,
+        selector : gg.selector
+      }, o(dd)), (function(){
+        return ff ? {callback : ff.callback} : {}; 
+      })()));
     };
   };
 
