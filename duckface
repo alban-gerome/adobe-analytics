@@ -1,5 +1,5 @@
 (function(){
-  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, V, Z, cc;
+  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, V, Z, cc, dd, ee, ff, gg, hh, ii, jj;
 
   function a(){
     var b = s_c_il[0];
@@ -182,6 +182,7 @@
 
   Z = 0;
   N.map(function(aa){
+    var bb;
     for(bb=0; bb<D.length; bb++){
       s_c_il[0].contextData["testCaseKey"] = Z + "";
       O(M[Z] = {
@@ -210,6 +211,22 @@
           return ff ? {callback : ff.callback} : {}; 
         })())
       );
+      hh = o(dd);
+      for(ii in hh){
+        if(ii=="contextData"){
+          for(jj in hh.contextData) gg.element.dataset[[
+                                      "duckfaceContextData",
+                                      jj.charAt(0).toUpperCase(),
+                                      jj.slice(1)
+                                    ].join("")] = hh.contextData[jj];
+        }else{
+                                    gg.element.dataset[[
+                                      "duckface",
+                                      ii.charAt(0).toUpperCase(),
+                                      ii.slice(1)
+                                    ].join("")] = hh[ii];
+        };
+      };
     };
   };
 
