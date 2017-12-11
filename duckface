@@ -1,9 +1,9 @@
 (function(){
-  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, V, Z, cc, dd, ee, ff, gg, hh, ii, jj;
+  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, V, Z, cc, dd, ee, ff, gg, hh, ii, jj, kk, ll, mm, nn;
 
   function a(){
     var b = s_c_il[0];
-    return ["t"].concat(b.lightProfileID ? s.va_m : s.va_t); 
+    return ["t"].concat(b.lightProfileID ? b.va_m : b.va_t); 
   };
   function c(d){
     if(/^prop\d{1,2}$/.test(d) && d.match(/\d+/gi)[0]-0<=75) return d.replace("prop",         "c");
@@ -95,112 +95,111 @@
     };
     return t;
   };
+  if(arguments.length==0){
+    if((z = function(){
+      A = "";
+      for(B in window) if(/^s_i_/.test(B)) A = o(window[B].src);
+      return A;
+    })()=="") return;
 
-  if((z = function(){
-    A = "";
-    for(B in window) if(/^s_i_/.test(B)) A = o(window[B].src);
-    return A;
-  })()=="") return;
-
-  C = {
-    page : z()
-  };
-  D = document.body.querySelectorAll("*");
-  if(D.length==0) return C;
-  C.interactions = [];
-  console.log("Please make duckfaces while you wait");
-  E = {};
-  F = s_c_il[0];
-  F.un = "baruktestabc";
-  F.tl = function(G, H, I, J, K){
-    var L = this;
-    if(L.contextData.testCaseKey) L.linkTrackVars = L.apl(L.linkTrackVars, "contextData.testCaseKey", ",", 1);
-    L.lnk = G;
-    L.linkType = H
-    L.linkName = I;
-    if(K){
-      L.bct = E;
-      L.bcf = K;
-      E[L.contextData.testCaseKey].callback = K + "";
+    C = {
+      page : z()
     };
-    L.t(J);
-  };
-
-  M = {};
-  N = ["blur", "change", "click"];
-  O = function(P){
-    P.element.addEventListener(P.event, function(){
-      event.preventDefault();
-    });
-    P.element.dispatchEvent(new MouseEvent(
-      P.event, {
-        bubbles    : !0,
-        cancelable : !0
-      }
-    ));
-  };
-
-  var Q = function(R){
-    var S = [], T, U;
-    while(R.parentNode){
-      if(R.id){
-        S.unshift("#" + R.id);
-        break;
-      }else{
-        if(R==R.ownerDocument.documentElement){
-          S.unshift(R.tagName.toLowerCase());
-        }else{
-          T = 1;
-          U = R;
-          while(U = U.previousElementSibling) T++;
-          S.unshift([
-            R.tagName.toLowerCase(),
-            ":nth-child(",
-            T,
-            ")"
-          ].join(""));
-        };
-        R = R.parentNode;
+    D = document.body.querySelectorAll("*");
+    if(D.length==0) return C;
+    C.interactions = [];
+    console.log("Please make duckfaces while you wait");
+    E = {};
+    F = s_c_il[0];
+    F.un = "baruktestabc";
+    F.tl = function(G, H, I, J, K){
+      var L = this;
+      if(L.contextData.testCaseKey) L.linkTrackVars = L.apl(L.linkTrackVars, "contextData.testCaseKey", ",", 1);
+      L.lnk = G;
+      L.linkType = H
+      L.linkName = I;
+      if(K){
+        L.bct = E;
+        L.bcf = K;
+        E[L.contextData.testCaseKey].callback = K + "";
       };
+      L.t(J);
     };
-    return S.join(">");
-  };
 
-  var V = function(){
-    var W = arguments, X, Y;
-    if(W.length==0) return;
-    if(W.length==1){
-      if(W[0].constructor===Object) return W[0];
-      return;
-    };
-    for(X=1; X<W.length; X++){
-      if(W[X].constructor!==Object) return;
-      for(Y in W[X]) W[0][Y] = W[X][Y];
-    };
-    return W[0];
-  };
-
-  Z = 0;
-  N.map(function(aa){
-    var bb;
-    for(bb=0; bb<D.length; bb++){
-      s_c_il[0].contextData["testCaseKey"] = Z + "";
-      O(M[Z] = {
-        element  :   D[bb],
-        selector : Q(D[bb]),
-        event    : aa
+    M = {};
+    N = ["blur", "change", "click"];
+    O = function(P){
+      P.element.addEventListener(P.event, function(){
+        event.preventDefault();
       });
-      Z++;
+      P.element.dispatchEvent(new MouseEvent(
+        P.event, {
+          bubbles    : !0,
+          cancelable : !0
+        }
+      ));
     };
-  });
 
-  for(cc in window) if(/^s_i_/.test(cc)){
-    dd = window[cc].src;
-    if(ee = dd.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
-      ff = E[+ee[1]];
-      gg = M[+ee[1]];
-      C.interactions.push(
-        V({
+    var Q = function(R){
+      var S = [], T, U;
+      while(R.parentNode){
+        if(R.id){
+          S.unshift("#" + R.id);
+          break;
+        }else{
+          if(R==R.ownerDocument.documentElement){
+            S.unshift(R.tagName.toLowerCase());
+          }else{
+            T = 1;
+            U = R;
+            while(U = U.previousElementSibling) T++;
+            S.unshift([
+              R.tagName.toLowerCase(),
+              ":nth-child(",
+              T,
+              ")"
+            ].join(""));
+          };
+          R = R.parentNode;
+        };
+      };
+      return S.join(">");
+    };
+
+    var V = function(){
+      var W = arguments, X, Y;
+      if(W.length==0) return;
+      if(W.length==1){
+        if(W[0].constructor===Object) return W[0];
+        return;
+      };
+      for(X=1; X<W.length; X++){
+        if(W[X].constructor!==Object) return;
+        for(Y in W[X]) W[0][Y] = W[X][Y];
+      };
+      return W[0];
+    };
+
+    Z = 0;
+    N.map(function(aa){
+      var bb;
+      for(bb=0; bb<D.length; bb++){
+        s_c_il[0].contextData["testCaseKey"] = Z + "";
+        O(M[Z] = {
+          element  :   D[bb],
+          selector : Q(D[bb]),
+          event    : aa
+        });
+        Z++;
+      };
+    });
+
+    for(cc in window) if(/^s_i_/.test(cc)){
+      dd = window[cc].src;
+      if(ee = dd.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
+        ff = E[+ee[1]];
+        gg = M[+ee[1]];
+        hh = V({
           element  : gg.element,
           event    : gg.event,
           selector : gg.selector
@@ -209,26 +208,42 @@
         {rsid      : C.page.rsid},
         (function(){
           return ff ? {callback : ff.callback} : {}; 
-        })())
-      );
-      hh = o(dd);
-      for(ii in hh){
-        if(ii=="contextData"){
-          for(jj in hh.contextData) gg.element.dataset[[
-                                      "duckfaceContextData",
-                                      jj.charAt(0).toUpperCase(),
-                                      jj.slice(1)
-                                    ].join("")] = hh.contextData[jj];
-        }else{
-                                    gg.element.dataset[[
-                                      "duckface",
-                                      ii.charAt(0).toUpperCase(),
-                                      ii.slice(1)
-                                    ].join("")] = hh[ii];
+        })());
+        C.interactions.push(hh);
+        for(ii in hh){
+          gg.element.dataset.duckface = "";
+          if(ii=="contextData"){
+            for(jj in hh.contextData) gg.element.dataset[[
+                                        "duckfaceContextData",
+                                        jj.charAt(0).toUpperCase(),
+                                        jj.slice(1)
+                                      ].join("")] = hh.contextData[jj];
+          }else if(!/^(cachebuster|element|selector)$/.test(ii)){
+                                      gg.element.dataset[[
+                                        "duckface",
+                                        ii.charAt(0).toUpperCase(),
+                                        ii.slice(1)
+                                      ].join("")] = hh[ii];
+          };
         };
       };
     };
-  };
 
-  return C;
+    return C;
+  }else{
+    kk = arguments;
+    ll = [];
+    if(kk.length==1){
+      if(kk[0].constructor===String) mm = [arguments[0]];
+      if(kk[0].constructor===Array)  mm =  arguments[0];
+      mm.map(function(nn){
+        var oo = o(nn);
+            oo.isPageView    = "interactionType" in oo;
+            oo.isInteraction = !oo.isPageView;
+        ll.push(oo);
+      });
+    };
+
+    return ll.length==1 ? ll[0] : ll;
+  };
 })();
