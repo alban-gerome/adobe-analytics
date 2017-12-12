@@ -238,7 +238,7 @@
       if(kk[0].constructor===Array)  mm =  arguments[0];
       mm.map(function(nn){
         var oo = o(nn);
-            oo.isPageView    = "interactionType" in oo;
+            oo.isPageView    = !oo.interactionType;
             oo.isInteraction = !oo.isPageView;
         ll.push(oo);
       });
