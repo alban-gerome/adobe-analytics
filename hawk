@@ -1,0 +1,121 @@
+(function(){
+  var a = s_c_il[0];
+  if(a==null) return;
+
+  var b = function(){// get last page view request in raw format
+    var c, d, e = "";
+    for(c in window) if(/^s_i_/.test(c)){
+      d = window[c].src;
+      if(!/&(pe|pev2)=/.test(d)) e = d;
+    };
+    return e;
+  };
+
+  var f = function(g){// translate a request parameter name
+    var h, i, j, k;
+    h = {
+      "browserHeight"                : "bh",   "browserWidth"      : "bw",  "campaign"              : "v0",   "channel"                : "ch",
+      "colorDepth"                   : "c",    "connectionType"    : "ct",  "cookieDomainPeriods"   : "cdp",  "cookieLifetime"         : "cl",
+      "cookiesEnabled"               : "k",    "currencyCode"      : "cc",  "deleteLightProfiles"   : "mtsd", "dynamicVariablePrefix"  : "D",
+      "javaEnabled"                  : "v",    "javascriptVersion" : "j",   "lightIncrementBy"      : "mti",  "lightProfileID"         : "mtp",
+      "lightStoreForSeconds"         : "mtss", "homepage"          : "hp",  "pageURL"               : "g",    "pageURLRest"            : "-g",
+      "plugins"                      : "p",    "resolution"        : "s",   "retrieveLightProfiles" : "mtsr", "timestamp"              : "ts",
+      "transactionID"                : "xact", "vmk"               : "vmt", "visitorMigrationKey"   : "vmt",  "visitorMigrationServer" : "vmf",
+      "visitorMigrationServerSecure" : "vmf",  "visitorNamespace"  : "ns",  "variableProvider"      : "vvp",  "visitorID"              : "vid"
+    };
+    i = {
+      "eVar" : {"max" : 75, "short" : "v"},
+      "hier" : {"max" : 5,  "short" : "h"},
+      "list" : {"max" : 3,  "short" : "l"},
+      "prop" : {"max" : 75, "short" : "c"}
+    };
+    for(j in i) for(k=1; k<i[j].max; k++) h[[j, k].join("")] = i[j].short;
+    return h[g] || g;
+  };
+
+  var l = function(m){// returns a JSON representation of a raw image request
+    var n = {};
+    var o = m.match(/(?:&c\.&)(.*)(?:&\.c&)/);
+    (a.lightProfileID ? a.va_m : a.va_t).map(function(p){    
+      var q = m.match(new RegExp(["\\/b\\/ss\\/.*&", f(p), "=([^&]*)"].join(""))), r;
+      if(q) n[p] = unescape(q[1]);
+    });
+    if(o){
+      n.contextData = {};
+      o[1].split("&").map(function(r){
+        var s = r.split("=");
+        n.contextData[s[0]] = unescape(s[1]);
+      });
+    };
+  };
+
+  var t = function(u){// cross-browser event listener
+    if(u==null)                return;
+    if(u.constructor!==Object) return;
+    if(u.element==null)        return;
+    if(u.event==null)          return;
+    if(u.callback==null)       return;
+    var v = u.event;
+    var w = ["on", v].join("");
+    var x = u.callback;
+    if(document.addEventListener){
+      u.element.addEventListener(v, x);
+    }else if(document.attachEvent){
+      u.element.attachEvent(w, x);
+    }else{
+      u.element[w] = x;
+    };
+  };
+
+  var y = function(){// test support for DOMSubtreeModified
+    var z               = !1;
+    var A               = document.createElement("p");
+        A.style.display = "none";
+    t({
+      element  : document.body,
+      event    : "DOMSubtreeModified",
+      callback : function(){
+        z = !0;
+      }
+    });
+                     document.body.appendChild(A);
+    if(A.parentNode) document.body.removeChild(A);//for IE9, append won't trigger DOMSubtreeModified
+    return z;
+  };
+
+  var B = function(){
+    if(s_c_il[0].pageName!=D){
+      new CustomEvent("pageView", {
+        detail  : l(b()),
+        bubbles : !0
+      })
+      D = s_c_il[0].pageName;
+    };
+  };
+
+  var C, D, E;
+  C = "MutationObserver";
+  D = a.pageName, 
+  if(E = window[           C]           ||
+         window[["WebKit", C].join("")] ||
+         window[["Moz",    C].join("")]
+  ){
+    new E(function
+      B();
+    }).observe(
+      document.body, {
+        childList : !0,
+        subtree   : !0
+      }
+    );
+  }else if(y){
+    t({
+      element  : document.body,
+      event    : "DOMSubtreeModified",
+      callback : B
+    });
+  }else{
+    //polling
+  };
+  //initial page view
+})
