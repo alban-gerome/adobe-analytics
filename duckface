@@ -16,7 +16,7 @@
       "plugins"                      : "p",       "resolution"        : "s",    "retrieveLightProfiles" : "mtsr", "timestamp"              : "ts",
       "transactionID"                : "xact",    "vmk"               : "vmt",  "visitorMigrationKey"   : "vmt",  "visitorMigrationServer" : "vmf",
       "visitorMigrationServerSecure" : "vmf",     "visitorNamespace"  : "ns",   "variableProvider"      : "vvp",  "visitorID"              : "vid",
-      "lnk_d"                        :"download", "lnk_e"             : "exit", "lnk_o"                 : "other"
+      "lnk_d"                        : "download", "lnk_e"            : "exit", "lnk_o"                 : "other"
     };
     for(f in e) e[e[f]] = f;
     g = {
