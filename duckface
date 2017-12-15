@@ -5,30 +5,31 @@
     var b = s_c_il[0];
     return ["t"].concat(b.lightProfileID ? b.va_m : b.va_t); 
   };
-  function c(d){
-    if(/^prop\d{1,2}$/.test(d) && d.match(/\d+/gi)[0]-0<=75) return d.replace("prop",         "c");
-    if(/^eVar\d{1,2}$/.test(d) && d.match(/\d+/gi)[0]-0<=75) return d.replace("eVar",         "v");
-    if(/^hier[12345]$/.test(d))                              return d.replace("hier",         "h");
-    if(/^list[123]$/.test(d))                                return d.replace("list",         "l");
-    if(/^channel$/.test(d))                                  return d.replace("channel",      "ch");
-    if(/^currencyCode$/.test(d))                             return d.replace("currencyCode", "cc");
-    return d;
-  };
-  function e(f){
-    var g = "";
-    if(g=f.match(/^c(\d{1,2})$/)) return ["prop", g[1]].join("");
-    if(g=f.match(/^v(\d{1,2})$/)) return ["eVar", g[1]].join("");
-    if(g=f.match(/^h(\d)$/))      return ["hier", g[1]].join("");
-    if(g=f.match(/^l(\d)$/))      return ["list", g[1]].join("");
-    if(f=="ch")                   return  "channel";
-    if(f=="pe")                   return  "interactionType";
-    if(f=="pev2")                 return  "interactionDescription";
-    return f;
-  };
-  function h(i){
-    return i=="lnk_d" ? "download" :
-           i=="lnk_e" ? "exit"     :
-           i=="lnk_o" ? "other"    : i;
+  function c(d){    
+    var e, f, g, h, i;
+    e = {
+      "browserHeight"                : "bh",      "browserWidth"      : "bw",   "campaign"              : "v0",   "channel"                : "ch",
+      "colorDepth"                   : "c",       "connectionType"    : "ct",   "cookieDomainPeriods"   : "cdp",  "cookieLifetime"         : "cl",
+      "cookiesEnabled"               : "k",       "currencyCode"      : "cc",   "deleteLightProfiles"   : "mtsd", "dynamicVariablePrefix"  : "D",
+      "javaEnabled"                  : "v",       "javascriptVersion" : "j",    "lightIncrementBy"      : "mti",  "lightProfileID"         : "mtp",
+      "lightStoreForSeconds"         : "mtss",    "homepage"          : "hp",   "pageURL"               : "g",    "pageURLRest"            : "-g",
+      "plugins"                      : "p",       "resolution"        : "s",    "retrieveLightProfiles" : "mtsr", "timestamp"              : "ts",
+      "transactionID"                : "xact",    "vmk"               : "vmt",  "visitorMigrationKey"   : "vmt",  "visitorMigrationServer" : "vmf",
+      "visitorMigrationServerSecure" : "vmf",     "visitorNamespace"  : "ns",   "variableProvider"      : "vvp",  "visitorID"              : "vid",
+      "lnk_d"                        :"download", "lnk_e"             : "exit", "lnk_o"                 : "other"
+    };
+    for(f in e) e[e[f]] = f;
+    g = {
+      "eVar" : {"max" : 75, "short" : "v"},
+      "hier" : {"max" : 5,  "short" : "h"},
+      "list" : {"max" : 3,  "short" : "l"},
+      "prop" : {"max" : 75, "short" : "c"}
+    };
+    for(h in g) for(i=1; i<g[h].max; i++){
+      e[[h, i].join("")]          = [g[h].short, i].join("");
+      e[[g[h].short, i].join("")] = [h, i].join("");
+    };
+    return e[d] || d;
   };
   function j(k, l){
     var m = k.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/);
@@ -68,10 +69,10 @@
     u.map(function(w){
       x = r.match(new RegExp(["\\/b\\/ss\\/.*&", c(w), "=([^&]*)"].join("")));
       if(q) y = q[1].match(new RegExp([w, "=([^&?]*)"].join("")));
-      if(x) t[e(w)] = h(unescape(x[1]));
+      if(x) t[w] = c(unescape(x[1]));
       if(y) t.contextData[w] = unescape(y[1]);
       if(/&pe(v2)?=/.test(p) && !/^(pageName|t|pe|pev2)$/.test(w)){
-        if(x) t.linkTrackVars2.push(e(w));
+        if(x) t.linkTrackVars2.push(c(w));
         if(y) t.linkTrackVars2.push(["contextData", w].join("."));
         if(w=="events") linkTrackEvents2 = w;
       };
