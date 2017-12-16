@@ -2,18 +2,22 @@
   var a = s_c_il[0];
   if(a==null) return;
 
-  var b = function(){// get last page view request in raw format
-    var c, d, e = "";
-    for(c in window) if(/^s_i_/.test(c)){
-      d = window[c].src;
-      if(!/&(pe|pev2)=/.test(d)) e = d;
+  var b = function(c){
+    var d, e, f = "";
+    for(d in window) if(/^s_i_/.test(d)){
+      e = window[d].src;
+      if(/&(pe|pev2)=/.test(e)){
+        f = c=="interactions" ? e : f;
+      }else{
+        f = c=="pageviews"    ? e : f;  
+      }      
     };
-    return e;
+    return f;
   };
 
-  var f = function(g){// translate a request parameter name
-    var h, i, j, k;
-    h = {
+  var g = function(h){
+    var i, j, k, l;
+    i = {
       "browserHeight"                : "bh",   "browserWidth"      : "bw",  "campaign"              : "v0",   "channel"                : "ch",
       "colorDepth"                   : "c",    "connectionType"    : "ct",  "cookieDomainPeriods"   : "cdp",  "cookieLifetime"         : "cl",
       "cookiesEnabled"               : "k",    "currencyCode"      : "cc",  "deleteLightProfiles"   : "mtsd", "dynamicVariablePrefix"  : "D",
@@ -23,88 +27,109 @@
       "transactionID"                : "xact", "vmk"               : "vmt", "visitorMigrationKey"   : "vmt",  "visitorMigrationServer" : "vmf",
       "visitorMigrationServerSecure" : "vmf",  "visitorNamespace"  : "ns",  "variableProvider"      : "vvp",  "visitorID"              : "vid"
     };
-    i = {
+    j = {
       "eVar" : {"max" : 75, "short" : "v"},
       "hier" : {"max" : 5,  "short" : "h"},
       "list" : {"max" : 3,  "short" : "l"},
       "prop" : {"max" : 75, "short" : "c"}
     };
-    for(j in i) for(k=1; k<i[j].max; k++) h[[j, k].join("")] = [i[j].short, k].join("")];
-    return h[g] || g;
+    for(k in j) for(l=1; l<j[k].max; l++) h[[k, l].join("")] = [j[k].short, l].join("");
+    return i[h] || h;
   };
 
-  var l = function(m){// returns a JSON representation of a raw image request
-    var n = {};
-    var o = m.match(/(?:&c\.&)(.*)(?:&\.c&)/);
-    (a.lightProfileID ? a.va_m : a.va_t).map(function(p){    
-      var q = m.match(new RegExp(["\\/b\\/ss\\/.*&", f(p), "=([^&]*)"].join(""))), r;
-      if(q) n[p] = unescape(q[1]);
+  var m = function(n){
+    var o = {};
+    var p = n.match(/(?:&c\.&)(.*)(?:&\.c&)/);
+    (a.lightProfileID ? a.va_m : a.va_t).map(function(q){    
+      var r = n.match(new RegExp(["\\/b\\/ss\\/.*&", g(q), "=([^&]*)"].join(""))), r;
+      if(r) o[q] = unescape(r[1]);
     });
-    if(o){
-      n.contextData = {};
-      o[1].split("&").map(function(r){
-        var s = r.split("=");
-        n.contextData[s[0]] = unescape(s[1]);
+    if(p){
+      o.contextData = {};
+      p[1].split("&").map(function(s){
+        var t = s.split("=");
+        o.contextData[t[0]] = unescape(t[1]);
       });
     };
-    return n;
+    return o;
   };
 
-  var t = function(u){// cross-browser event listener
-    if(u==null)                return;
-    if(u.constructor!==Object) return;
-    if(u.element==null)        return;
-    if(u.event==null)          return;
-    if(u.callback==null)       return;
-    var v = u.event;
-    var w = ["on", v].join("");
-    var x = u.callback;
+  var u = function(v){
+    if(v==null)                return;
+    if(v.constructor!==Object) return;
+    if(v.element==null)        return;
+    if(v.event==null)          return;
+    if(v.callback==null)       return;
+    var w = v.event;
+    var x = ["on", w].join("");
+    var y = v.callback;
     if(document.addEventListener){
-      u.element.addEventListener(v, x);
+      v.element.addEventListener(w, y);
     }else if(document.attachEvent){
-      u.element.attachEvent(w, x);
+      v.element.attachEvent(x, y);
     }else{
-      u.element[w] = x;
+      v.element[x] = y;
     };
   };
 
-  var y, z, A, B, C, D, E;
-  (function y(){
-    z = l(b);
+  var z, A, B, C, E, F;
+  (function z(){
+    A = m(b("pageviews"));
     document.body.dispatchEvent(
       new CustomEvent("pageView", {
-        detail  : z,
+        detail  : A,
         bubbles : !0
       })
     };
-    A = z.pageName;
-  };
+  })();
   function B(){
-    if(l[b].pageName!=z){
-      y();
-      z = l[b].pageName;
+    if(m(b("pageviews"));!=A){
+      z();
+      A = m(b("pageviews"));
     };
   };
-  C = "MutationObserver";
-  if(D = window[           C]           ||
-         window[["WebKit", C].join("")] ||
-         window[["Moz",    C].join("")]
+  ["blur", "change", "click"].map(function(B){
+    [].map.call(document.body.querySelectorAll("*"), function(C){
+      u({
+        element  : C,
+        event    : B,
+        callback : function(){
+          var D = m(b("interactions"));
+          if(E==null){
+            E = D;
+          }else if(E!=D){
+            document.body.dispatchEvent(
+              new CustomEvent("interaction", {
+                detail  : D,
+                bubbles : !0
+              });
+            );
+            E = D;
+          };
+        }
+      })
+    });
+  });
+  F = "MutationObserver";
+  if(G = window[           F]           ||
+         window[["WebKit", F].join("")] ||
+         window[["Moz",    F].join("")]
   ){
-    new D(B).observe(
+    new G(B).observe(
       document.body, {
         childList : !0,
         subtree   : !0
       }
     );
   }else{
-    t({
+    u({
       element  : document,
       event    : "DOMSubTreeModified",
       callback : function(){
-        clearInterval(E);
+        clearInterval(H);
         B();
       }
     });
-    E = setInterval(B, 500);
+    H = setInterval(B, 500);
   };
 })
