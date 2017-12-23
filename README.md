@@ -328,14 +328,14 @@ The following columns will probably not work for you. They are specific to where
 * Script Img Query - query string of the URL of the marketing pixel in the satellite file
 * Script Img Hash - hash of the URL of the marketing pixel in the satellite file
 
-One thing to note is that this script does need jQuery. Also you may run into cross-domain errors and get no information about the contents of the satellite file such as the HTTP status code. These are not show-stoppers, use these:
+~~One thing to note is that this script does need jQuery.~~ Also you may run into cross-domain errors and get no information about the contents of the satellite file such as the HTTP status code. These are not show-stoppers, use these:
 
-* add jQuery on any page on your local machine: http://www.learningjquery.com/2009/04/better-stronger-safer-jquerify-bookmarklet
+* ~~add jQuery on any page on your local machine: http://www.learningjquery.com/2009/04/better-stronger-safer-jquerify-bookmarklet~~
 * temporarily disable cross-domain errors on your local machine: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en (Chrome only)
 
 [Back to the table of contents](#Table-of-contents)
 
 Alban Gérôme
-18 Apr 2017
+23 Dec 2017
 
 Follow me on Twitter: <a href="https://twitter.com/albangerome?lang=en-gb" title="Follow Alban Gérôme on  Twitter">@albangerome</a>
