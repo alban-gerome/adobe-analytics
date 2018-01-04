@@ -72,7 +72,7 @@
     };
   };
 
-  var z, A, B, C, E, F;
+  var z, A, F, G;
   (function z(){
     A = m(b("pageviews"));
     document.body.dispatchEvent(
