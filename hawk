@@ -80,42 +80,42 @@
         detail  : A,
         bubbles : !0
       })
-    };
+    );
   })();
   function B(){
-    if(m(b("pageviews"));!=A){
+    if(m(b("pageviews"))!=A){
       z();
       A = m(b("pageviews"));
     };
   };
-  ["blur", "change", "click"].map(function(B){
-    [].map.call(document.body.querySelectorAll("*"), function(C){
+  ["blur", "change", "click"].map(function(C){
+    [].map.call(document.body.querySelectorAll("*"), function(D){
       u({
-        element  : C,
-        event    : B,
+        element  : D,
+        event    : C,
         callback : function(){
-          var D = m(b("interactions"));
-          if(E==null){
-            E = D;
-          }else if(E!=D){
+          var E = m(b("interactions"));
+          if(F==null){
+            F = E;
+          }else if(F!=E){
             document.body.dispatchEvent(
               new CustomEvent("interaction", {
-                detail  : D,
+                detail  : E,
                 bubbles : !0
               });
             );
-            E = D;
+            F = E;
           };
         }
       })
     });
   });
-  F = "MutationObserver";
-  if(G = window[           F]           ||
-         window[["WebKit", F].join("")] ||
-         window[["Moz",    F].join("")]
+  G = "MutationObserver";
+  if(H = window[           G]           ||
+         window[["WebKit", G].join("")] ||
+         window[["Moz",    G].join("")]
   ){
-    new G(B).observe(
+    new H(B).observe(
       document.body, {
         childList : !0,
         subtree   : !0
@@ -126,10 +126,10 @@
       element  : document,
       event    : "DOMSubTreeModified",
       callback : function(){
-        clearInterval(H);
+        clearInterval(I);
         B();
       }
     });
-    H = setInterval(B, 500);
+    I = setInterval(B, 500);
   };
 })
