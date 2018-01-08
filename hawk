@@ -3,21 +3,31 @@
   if(a==null) return;
 
   var b = function(c){
-    var d, e, f = "";
+    var d, e, f = {}, g = 0, h = 0;
     for(d in window) if(/^s_i_/.test(d)){
       e = window[d].src;
       if(/&(pe|pev2)=/.test(e)){
-        f = c=="interactions" ? e : f;
+        if(c==null || c=="interactions"){
+          g++;
+          f.count   = c==null ? g + h : g;
+          f.request = e;
+          f.type    = "interaction";
+        };
       }else{
-        f = c=="pageviews"    ? e : f;  
-      }      
+        if(c==null || c=="pageviews"){
+          h++;
+          f.count   = c==null ? g + h : h;
+          f.request = e;
+          f.type    = "pageview";
+        };
+      };
     };
     return f;
   };
 
-  var g = function(h){
-    var i, j, k, l;
-    i = {
+  var i = function(j){
+    var k, l, m, n;
+    k = {
       "browserHeight"                : "bh",   "browserWidth"      : "bw",  "campaign"              : "v0",   "channel"                : "ch",
       "colorDepth"                   : "c",    "connectionType"    : "ct",  "cookieDomainPeriods"   : "cdp",  "cookieLifetime"         : "cl",
       "cookiesEnabled"               : "k",    "currencyCode"      : "cc",  "deleteLightProfiles"   : "mtsd", "dynamicVariablePrefix"  : "D",
@@ -27,21 +37,22 @@
       "transactionID"                : "xact", "vmk"               : "vmt", "visitorMigrationKey"   : "vmt",  "visitorMigrationServer" : "vmf",
       "visitorMigrationServerSecure" : "vmf",  "visitorNamespace"  : "ns",  "variableProvider"      : "vvp",  "visitorID"              : "vid"
     };
-    j = {
+    l = {
       "eVar" : {"max" : 75, "short" : "v"},
       "hier" : {"max" : 5,  "short" : "h"},
       "list" : {"max" : 3,  "short" : "l"},
       "prop" : {"max" : 75, "short" : "c"}
     };
-    for(k in j) for(l=1; l<j[k].max; l++) h[[k, l].join("")] = [j[k].short, l].join("");
-    return i[h] || h;
-  };
+    for(m in l) for(n=1; n<l[m].max; n++) j[[m, n].join("")] = [l[m].short, n].join("");
+    return k[j] || j;
+  };j
 
   var m = function(n){
+    if(n==null) return;
     var o = {};
     var p = n.match(/(?:&c\.&)(.*)(?:&\.c&)/);
     (a.lightProfileID ? a.va_m : a.va_t).map(function(q){    
-      var r = n.match(new RegExp(["\\/b\\/ss\\/.*&", g(q), "=([^&]*)"].join(""))), r;
+      var r = n.match(new RegExp(["\\/b\\/ss\\/.*&", i(q), "=([^&]*)"].join("")));
       if(r) o[q] = unescape(r[1]);
     });
     if(p){
@@ -54,82 +65,102 @@
     return o;
   };
 
-  var u = function(v){
-    if(v==null)                return;
-    if(v.constructor!==Object) return;
-    if(v.element==null)        return;
-    if(v.event==null)          return;
-    if(v.callback==null)       return;
-    var w = v.event;
-    var x = ["on", w].join("");
-    var y = v.callback;
+  var u = function(){
+    var v = arguments, w, x;
+    if(v.length==0) return;
+    if(v.length==1){
+      if(v[0].constructor===Object) return v[0];
+      return;
+    };
+    for(w=1; w<v.length; w++){
+      if(v[w].constructor!==Object) return;
+      for(x in v[w]) v[0][x] = v[w][x];
+    };
+    return v[0];
+  };
+
+  var y = function(z){
+    if(z==null)                return;
+    if(z.constructor!==Object) return;
+    if(z.element==null)        return;
+    if(z.event==null)          return;
+    if(z.callback==null)       return;
+    var A = z.event;
+    var B = ["on", A].join("");
+    var C = z.callback;
     if(document.addEventListener){
-      v.element.addEventListener(w, y);
+      z.element.addEventListener(A, C);
     }else if(document.attachEvent){
-      v.element.attachEvent(x, y);
+      z.element.attachEvent(B, C);
     }else{
-      v.element[x] = y;
+      z.element[B] = C;
     };
   };
 
-  var z, A, F, G, H;
-  (function z(){
-    A = m(b("pageviews"));
+  var D;
+  var E = function(I){
+    D = b("pageviews");
     document.body.dispatchEvent(
-      new CustomEvent("pageView", {
-        detail  : A,
+      new CustomEvent("pageview", {
+        detail  : I ? u(m(D.request), I) : m(D.request), 
         bubbles : !0
       })
     );
-  })();
-  function B(){
-    if(m(b("pageviews"))!=A){
-      z();
-      A = m(b("pageviews"));
+  };
+  E();
+  var F = function(){
+    return b("pageviews").count > D.count;
+  };
+  var I = function(J){
+    if(J==null){
+      if(F()) E();
+    }else if(J.constructor===Array){
+      J.map(function(K){
+        if(F()) E({mutation : K});
+      });
+    }else{
+
     };
   };
-  ["blur", "change", "click"].map(function(C){
-    [].map.call(document.body.querySelectorAll("*"), function(D){
-      u({
-        element  : D,
-        event    : C,
-        callback : function(){
-          var E = m(b("interactions"));
-          if(F==null){
-            F = E;
-          }else if(F!=E){
-            document.body.dispatchEvent(
-              new CustomEvent("interaction", {
-                detail  : E,
-                bubbles : !0
-              })
-            );
-            F = E;
-          };
-        }
-      })
-    });
-  });
-  G = "MutationObserver";
-  if(H = window[           G]           ||
-         window[["WebKit", G].join("")] ||
-         window[["Moz",    G].join("")]
+  var L, M = "MutationObserver", N;
+  if(L = window[           M]           ||
+         window[["WebKit", M].join("")] ||
+         window[["Moz",    M].join("")]
   ){
-    new H(B).observe(
+    new L(I).observe(
       document.body, {
         childList : !0,
         subtree   : !0
       }
     );
   }else{
-    u({
+    y({
       element  : document,
       event    : "DOMSubTreeModified",
       callback : function(){
-        clearInterval(I);
-        B();
+        clearInterval(N);
+        I({event : event});
       }
     });
-    I = setInterval(B, 500);
+    N = setInterval(I, 500);
   };
-})
+
+  ["blur", "change", "click"].map(function(O){
+    [].map.call(document.body.querySelectorAll("*"), function(P){
+      y({
+        element  : P,
+        event    : O,
+        callback : function(){
+          if(P==event.target || P==event.srcElement){
+            document.body.dispatchEvent(
+              new CustomEvent("interaction", {
+                detail  : u(m(b("interactions").request), {event : event}),
+                bubbles : !0
+              })
+            );
+          };
+        }
+      });
+    };
+  });
+})();
