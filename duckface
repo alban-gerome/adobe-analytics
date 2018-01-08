@@ -3,7 +3,7 @@
 
   function a(){
     var b = s_c_il[0];
-    return ["t"].concat(b.lightProfileID ? b.va_m : b.va_t); 
+    return ["t"].concat(b.lightProfileID ? b.va_m : b.va_t);
   };
   function c(d){    
     var e, f, g, h, i;
@@ -71,8 +71,8 @@
       if(q) y = q[1].match(new RegExp([w, "=([^&?]*)"].join("")));
       if(x) t[w] = c(unescape(x[1]));
       if(y) t.contextData[w] = unescape(y[1]);
-      if(/&pe(v2)?=/.test(p) && !/^(pageName|t|pe|pev2)$/.test(w)){
-        if(x) t.linkTrackVars2.push(c(w));
+      if(/&pe(v2)?=/.test(p) && /^eVar\d{1,2}|hier\d|list\d|prop\d{1,2}|events$/.test(w)){
+        if(x) t.linkTrackVars2.push(w);
         if(y) t.linkTrackVars2.push(["contextData", w].join("."));
         if(w=="events") linkTrackEvents2 = w;
       };
@@ -81,8 +81,6 @@
     t.t                = j(t.t, "friendly");
     t.linkTrackVars    = t.linkTrackVars   || t.linkTrackVars2.join(",");
     t.linkTrackVars    = t.linkTrackVars
-                          .replace("fid",                     "")
-                          .replace("currencyCode",            "")
                           .replace("contextData.testCaseKey", "")
                           .replace(/,{2,}/g, ",")
                           .replace(/^,/g, "")
