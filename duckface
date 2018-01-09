@@ -1,5 +1,5 @@
 (function(){
-  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, V, Z, cc, dd, ee, ff, gg, hh, ii, jj, kk, ll, mm, nn;
+  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, Q, V, Z, cc, dd, ee, ff, gg, hh, ii, jj, kk, ll, mm, nn;
 
   function a(){
     var b = s_c_il[0];
@@ -139,7 +139,7 @@
       ));
     };
 
-    var Q = function(R){
+    Q = function(R){
       var S = [], T, U;
       while(R.parentNode){
         if(R.id){
@@ -165,7 +165,7 @@
       return S.join(">");
     };
 
-    var V = function(){
+    V = function(){
       var W = arguments, X, Y;
       if(W.length==0) return;
       if(W.length==1){
@@ -193,6 +193,8 @@
       };
     });
 
+    cc
+
     for(cc in window) if(/^s_i_/.test(cc)){
       dd = window[cc].src;
       if(ee = dd.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
@@ -209,21 +211,28 @@
           return ff ? {callback : ff.callback} : {}; 
         })());
         C.interactions.push(hh);
-        for(ii in hh){
-          gg.element.dataset.duckface = "";
-          if(ii=="contextData"){
-            for(jj in hh.contextData) gg.element.dataset[[
-                                        "duckfaceContextData",
-                                        jj.charAt(0).toUpperCase(),
-                                        jj.slice(1)
-                                      ].join("")] = hh.contextData[jj];
-          }else if(!/^(cachebuster|element|selector)$/.test(ii)){
-                                      gg.element.dataset[[
-                                        "duckface",
-                                        ii.charAt(0).toUpperCase(),
-                                        ii.slice(1)
-                                      ].join("")] = hh[ii];
-          };
+      }else{
+        gg = {element : document.body};
+        hh = V({
+          element : gg.element,
+          rsid    : C.page.rsid
+        },
+        o(dd));
+      };
+      for(ii in hh){
+        gg.element.dataset.duckface = "";
+        if(ii=="contextData"){
+          for(jj in hh.contextData) gg.element.dataset[[
+                                      "duckfaceContextData",
+                                      jj.charAt(0).toUpperCase(),
+                                      jj.slice(1)
+                                    ].join("")] = hh.contextData[jj];
+        }else if(!/^(cacheBuster|element|selector)$/.test(ii)){
+                                    gg.element.dataset[[
+                                      "duckface",
+                                      ii.charAt(0).toUpperCase(),
+                                      ii.slice(1)
+                                    ].join("")] = hh[ii];
         };
       };
     };
