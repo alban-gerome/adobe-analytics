@@ -14,6 +14,7 @@ Now you can, just load the page you want to test, copy my script at https://gith
 * [Page view requests](#Pageviews)
 * [Interaction requests](#Interactions)
 * [HTML5 data- attributes](#HTML5)
+* [Quick Quack](#Quack)
 * [Decode raw requests](#Raw)
 * [What is it useful for?](#Useful)
 
@@ -82,6 +83,13 @@ Here are the jQuery equivalents of the code snippets above:
 <pre><code>
   $("[data-duckface]").css({border:"1px solid black"});
 </code></pre>
+
+[Back to the table of contents](#Table-of-contents)
+
+<a id="Quack"></a>
+### Quick Quack
+
+Imagine you want to inspect an element and see if it's tracked. If the page element is tracked indeed you will see plenty of HTML5 data- attributes starting with "data-duckface". It's hard too read so point at the element with your mouse and try Shift + Right-Click instead. It will show these attributes and their values as a nice table in the Javascript console. Again, this only works on Chrome.
 
 [Back to the table of contents](#Table-of-contents)
 
