@@ -239,15 +239,17 @@
 
     document.addEventListener("contextmenu", function(kk){
       var ll, mm, nn = {};
-      if(kk.shiftKey) if(ll = kk.target.dataset) for(mm in ll) nn[(function(oo){
-        oo = oo.replace(/^duckface/, "");
-        return [
-          oo.charAt(0).toLowerCase(),
-          oo.slice(1)
-        ].join("");
-      })(mm)] = {value : ll[mm]};
-      delete nn[""];
-      console.table(nn);
+      if(kk.shiftKey) if(ll = kk.target.dataset){
+        for(mm in ll) nn[(function(oo){
+          oo = oo.replace(/^duckface/, "");
+          return [
+            oo.charAt(0).toLowerCase(),
+            oo.slice(1)
+          ].join("");
+        })(mm)] = {value : ll[mm]};
+        delete nn[""];
+        console.table(nn);
+      };
     });
 
     return C;
