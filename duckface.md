@@ -93,7 +93,7 @@ Imagine you want to inspect an element and see if it's tracked. If the page elem
 
 It's hard too read so point at the element with your mouse and try Shift + Right-Click instead. It will show these attributes and their values as a nice table in the Javascript console.
 
-You can click on the column headers of that table to reorder the rows of that table. Again, this only works on Chrome.
+You can click on the column headers of that table to reorder the rows of that table. The table can only show 100 characters of a given property value. You will not be able to see the original request, i.e. the value of the "src" attribute, in full. It will contain an ellipsis in the middle of it. Again, this only works on Chrome.
 
 [Back to the table of contents](#Table-of-contents)
 
