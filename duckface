@@ -237,21 +237,34 @@
       };
     };
 
+    document.addEventListener("contextmenu", function(kk){
+      var ll, mm, nn = {};
+      if(kk.shiftKey) if(ll = kk.target.dataset) for(mm in ll) nn[(function(oo){
+        oo = oo.replace(/^duckface/, "");
+        return [
+          oo.charAt(0).toLowerCase(),
+          oo.slice(1)
+        ].join("");
+      })(mm)] = {value : ll[mm]};
+      delete nn[""];
+      console.table(nn);
+    });
+
     return C;
   }else{
-    kk = arguments;
-    ll = [];
-    if(kk.length==1){
-      if(kk[0].constructor===String) mm = [arguments[0]];
-      if(kk[0].constructor===Array)  mm =  arguments[0];
-      mm.map(function(nn){
-        var oo = o(nn);
-            oo.isPageView    = !oo.interactionType;
-            oo.isInteraction = !oo.isPageView;
-        ll.push(oo);
+    pp = arguments;
+    qq = [];
+    if(pp.length==1){
+      if(pp[0].constructor===String) rr = [arguments[0]];
+      if(pp[0].constructor===Array)  rr =  arguments[0];
+      rr.map(function(ss){
+        var tt = o(ss);
+            tt.isPageView    = !tt.interactionType;
+            tt.isInteraction = !tt.isPageView;
+        qq.push(tt);
       });
     };
 
-    return ll.length==1 ? ll[0] : ll;
+    return qq.length==1 ? qq[0] : qq;
   };
 })();
