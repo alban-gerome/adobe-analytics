@@ -91,7 +91,9 @@ Here are the jQuery equivalents of the code snippets above:
 
 Imagine you want to inspect an element and see if it's tracked. If the page element is tracked indeed you will see plenty of HTML5 data- attributes starting with "data-duckface".
 
-It's hard too read so point at the element with your mouse and try Shift + Right-Click instead. It will show these attributes and their values as a nice table in the Javascript console. Again, this only works on Chrome.
+It's hard too read so point at the element with your mouse and try Shift + Right-Click instead. It will show these attributes and their values as a nice table in the Javascript console.
+
+You can click on the column headers of that table to reorder the rows of that table. Again, this only works on Chrome.
 
 [Back to the table of contents](#Table-of-contents)
 
