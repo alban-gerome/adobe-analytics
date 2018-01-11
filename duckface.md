@@ -76,36 +76,26 @@ Please note that for the page views, the body tag will carry all data- attribute
 Here are a few handy Javascript tricks you can try after running Duckface on your page. Please make sure that Duckface has finished running, it may take a few minutes. First, I will give you the jQuery code, then the plain vanilla Javascript equivalent.
 
 Return all elements that triggered an interaction tracking request plus the body element for the page view request.
-<pre><code>  $("[data-duckface]");
-</code></pre>
-<pre><code>
-  document.querySelectorAll("[data-duckface]");
-</code></pre>
+<pre><code>$("[data-duckface]");</code></pre>
+<pre><code>document.querySelectorAll("[data-duckface]");</code></pre>
 
 Draw a 1px solid black border around the same elements as above: 
 
-<pre><code>
-  $("[data-duckface]").css({border : "1px solid black"});
-</code></pre>
-<pre><code>
-  [].map.call(document.querySelectorAll("[data-duckface]"), function(a){
+<pre><code>$("[data-duckface]").css({border : "1px solid black"});</code></pre>
+<pre><code>[].map.call(document.querySelectorAll("[data-duckface]"), function(a){
     a.style.border = "1px solid black";
-  });
-</code></pre>
+  });</code></pre>
 
 Draw a 1px solid green border around the elements that fired in response to a blur event, a red border for the change event and a blue one for the click event:
 
-<pre><code>
-  var i, mapping = {
+<pre><code>var i, mapping = {
     blur   : "green",
     change : "red",
     click  : "blue"
   };
   $("[data-duckface-event]").css({border:"1px solid black"});
-  for(i in mapping) $("[data-duckface-event='" + i + "']").css({border-color : mapping[i]});
-</code></pre>
-<pre><code>
-  var i, mapping = {
+  for(i in mapping) $("[data-duckface-event='" + i + "']").css({border-color : mapping[i]});</code></pre>
+<pre><code>var i, mapping = {
     blur   : "green",
     change : "red",
     click  : "blue"
@@ -113,8 +103,7 @@ Draw a 1px solid green border around the elements that fired in response to a bl
   for(i in mapping) [].map.call(document.querySelectorAll("[data-duckface-event='" + i + "']"), function(a){
     a.style.border = "1px solid black";
     a.style.borderColor = mapping[i];
-  };
-</code></pre>
+  };</code></pre>
 
 [Back to the table of contents](#Table-of-contents)
 
