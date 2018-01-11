@@ -4,9 +4,9 @@ Duckface
 How to extract the entire Adobe Analytics footprint for a given page
 --------------------------------------------------------------------
 
-"Please tell me whether that link is tracked?" No problem, you open the Adobe Marketing Cloud debugger or your browser's DevTools network tab. "Now tell me everything that is tracked on that page". For the page view, I would use the Adobe debugger and for the interactions, I would grab the Custom Link report and breakdown by all props and eVars we use and hope it's not too many. I would not be able to tell which element on the page are tracked though.
+"Please tell me whether that link is tracked?" No problem, you open the Adobe Marketing Cloud debugger or your browser's DevTools network tab. "Now tell me everything that is tracked on that page". For the page view, I would use the Adobe debugger and for the interactions, I would grab the Custom Link report and breakdown by all props and eVars we use and hope it's not too many. I would not be able to tell which element on the page are tracked though unless I ask the developers and the answer might not be fast.
 
-Now you can, just load the page you want to test, copy my script at https://github.com/alban-gerome/adobe-analytics/blob/master/duckface and paste it in your browser's Javascript console. It works only on Chrome, it might work on IE soon, it breaks the new Firefox, I have not tried Safari or other browsers. Please note that the script can take a few minutes per test to run so please be patient but let me know if you run into bugs.
+With Duckface, now you can. Just load the page you want to test in Chrome, open the DevTools Javascript console, copy my script at https://github.com/alban-gerome/adobe-analytics/blob/master/duckface and paste it there. It might work on IE soon, it breaks the new Firefox, I have not tried Safari or other browsers. Please note that the script can take a few minutes per test to run so please be patient but let me know if you run into bugs.
 
 <a id="Table-of-contents"></a>
 ### Table of contents:
@@ -14,7 +14,7 @@ Now you can, just load the page you want to test, copy my script at https://gith
 * [Page view requests](#Pageviews)
 * [Interaction requests](#Interactions)
 * [HTML5 data- attributes](#HTML5)
-* [Quick quack](#Quack)
+* [Quick quacks](#Quacks)
 * [Decode raw requests](#Raw)
 * [What is it useful for?](#Useful)
 
@@ -32,7 +32,7 @@ Every subsequent request on that page, such as a virtual page view will create a
 * s_i_barclaysuk_1
 * s_i_barclaysuk_2
 
-These objects will return an img HTML tag with a src attribute which is the raw tracking request URL for yor page view. You will recognise the page name in your raw request and few others, the rest uses more compact names such as v0 instead of your campaign tracking code or c1 instead of prop1.
+These objects will return an img HTML tag with a src attribute. That src attribute is the raw tracking request URL for yor page view. You will recognise the page name in your raw request and few others, the rest uses more compact names such as v0 instead of your campaign tracking code or c1 instead of prop1.
 
 It is possible to take the entire raw request and decode it. In fact, that's exactly what the Adobe Marketing Cloud Debugger does. Duckface decodes your request and generates a JSON representation of your raw page view request.
 
@@ -43,7 +43,7 @@ It is possible to take the entire raw request and decode it. In fact, that's exa
 
 If you track a submit button click, you are tracking an interaction with a page element. This will also generate a Javascript object in the global scope. If you jumped right to here and this is unclear, I suggest you read the paragraph above about the page view requests.
 
-The main difference here is that you might track many page element interactions. If we want to return the entire analytics footprint for a given page as a single JSON object, we need an array to group all the decoded interactions together.
+The main difference here is that you while you track one page view, you might track many page element interactions on that page. If we want to return the entire analytics footprint for a given page as a single JSON object, we need an array to group all the decoded interactions together.
 
 The challenge here is how can we find elements that result in an image request? What Javascript events will trigger a tracking request? Here, Duckface uses a brute-force method: it will scan all HTML elements in the body of the page and fire 3 Javascript events on each one of them:
 
@@ -51,7 +51,9 @@ The challenge here is how can we find elements that result in an image request? 
 * change - fires when a drop-down menu or a set of radio buttons was clicked
 * click - does what it says on the tin, I would use it for links, buttons and checkboxes mostly
 
-These 3 events should cover 99% of your tracking needs. If we simulate a click on a link and that link is tracked, we will have a JSON representing the decoded tracking request for that link when it is clicked in script output. If that link would result in a new page to load, you will stay on the same page. We only simulate the click, this also does not result in Adobe server calls either.
+These 3 events should cover 99% of your tracking needs. If we fire a click on a link and that link is tracked, we will have a JSON representing the decoded tracking request for that link when it is clicked in script output. If that link would result in a new page to load, you will stay on the same page. We stop the click but sometimes, some pages may display a lightbox or reveal a tab that was previousy hidden.
+
+I send all the tracking request to a dummy reporting suite, let's hope nobody has a reporting suite called "duckface". Feel free to change that to your own testing reporting suite id if you are slightly paranoid and want to see the requests in the pages and custom link reports.
 
 [Back to the table of contents](#Table-of-contents)
 
@@ -60,40 +62,60 @@ These 3 events should cover 99% of your tracking needs. If we simulate a click o
 
 HTML5 supports custom attributes with any name of your choice, provided that it starts with "data-". After running Duckface, the body tag of the page will gain a new "data-duckface" and many "data-duckface-*" attributes where "*" represents a data point of interest such as the page name for example and all your props and eVars etc. Duckface will also add similar attributes to all the page elements that are tracked. This way, you can simply inspect the element and see if it is tracked and with which values.
 
-After running Duckface, the line of code below will return an array of all elements that would fire an interaction request:
+Now, with many data- attributes it will be difficult to read them so you can simply point at the element you want to check with your mouse, press the Shift key and right-click. It will display these data-attributes in a nice table in your browser console and you order them by alphabetical order by clicking on the "(index)" column. Please note that this sort of table can only disply up to 100 characters so the raw request, i.e. the data-duckface-drc attribute value is truncated with an ellipsis (...) in the middle.
 
+I mentioned above that for each page view and interaction tracking request, there is a Javascript object with a name starting with "s_i_". By pressing the Ctrl key and right click, it will show the name of that Javascript object and the raw tracking request URL in full. It may not show in full in the console but if you right-click and copy that URL, you will copy the full URL.
+
+Please note that for the page views, the body tag will carry all data- attributes for the page view. The individual elements carry the data- attributes for the request that fired when Duckface triggered an event on them.
+
+[Back to the table of contents](#Table-of-contents)
+
+<a id="Quacks"></a>
+### Quick quacks
+
+Here are a few handy Javascript tricks you can try after running Duckface on your page. Please make sure that Duckface has finished running, it may take a few minutes. First, I will give you the jQuery code, then the plain vanilla Javascript equivalent.
+
+Return all elements that triggered an interaction tracking request plus the body element for the page view request.
+<pre><code>
+  $("[data-duckface]");
+</code></pre>
 <pre><code>
   document.querySelectorAll("[data-duckface]");
 </code></pre>
 
-This code snippet below will draw a 1px black border around the page elements that Duckface has found:
+Draw a 1px solid black border around the same elements as above: 
 
 <pre><code>
+  $("[data-duckface]").css({border : "1px solid black"});
+</code></pre>
+<pre><code>
   [].map.call(document.querySelectorAll("[data-duckface]"), function(a){
-    a.style = "border:1px solid black"
+    a.style.border = "1px solid black";
   });
 </code></pre>
 
-Here are the jQuery equivalents of the code snippets above:
+Draw a 1px solid green border around the elements that fired in response to a blur event, a red border for the change event and a blue one for the click event:
 
 <pre><code>
-  $("[data-duckface]");
+  var i, mapping = {
+    blur   : "green",
+    change : "red",
+    click  : "blue"
+  };
+  $("[data-duckface-event]").css({border:"1px solid black"});
+  for(i in mapping) $("[data-duckface-event='" + i + "']").css({border-color : mapping[i]});
 </code></pre>
-
 <pre><code>
-  $("[data-duckface]").css({border:"1px solid black"});
+  var i, mapping = {
+    blur   : "green",
+    change : "red",
+    click  : "blue"
+  };
+  for(i in mapping) [].map.call(document.querySelectorAll("[data-duckface-event='" + i + "']"), function(a){
+    a.style.border = "1px solid black";
+    a.style.borderColor = mapping[i];
+  };
 </code></pre>
-
-[Back to the table of contents](#Table-of-contents)
-
-<a id="Quack"></a>
-### Quick quack
-
-Imagine you want to inspect an element and see if it's tracked. If the page element is tracked indeed you will see plenty of HTML5 data- attributes starting with "data-duckface".
-
-It's hard too read so point at the element with your mouse and try Shift + Right-Click instead. It will show these attributes and their values as a nice table in the Javascript console.
-
-You can click on the column headers of that table to reorder the rows of that table. The table can only show 100 characters of a given property value. You will not be able to see the original request, i.e. the value of the "src" attribute, in full. It will contain an ellipsis in the middle of it. Again, this only works on Chrome.
 
 [Back to the table of contents](#Table-of-contents)
 
@@ -125,7 +147,7 @@ Two raw requests example:
 
 Now you can easily audit a page or a collection of pages by either going to the page itself or by asking your developers to provide with the evidence that they have implemented all your tracking requirements.
 
-The developers can now run Duckface before pushing changes live and see everything that would be tracked on the page and compare the output with the tagging guide. Ideally, your tagging could exist in JSON format and you could find additional scripts that would compare the JSON of your tagging guide with the JSON produced by Duckface. Unless the comparison shows a perfect match, the developers should get back to you for advice on how to fix the discrepancies.
+The developers can now run Duckface before pushing changes live and see everything that would be tracked on the page and compare the output with the tagging guide. Ideally, your tagging plan could exist in JSON format and you could compare the JSON of your tagging guide with the JSON produced by Duckface. Unless the comparison shows a perfect match, the developers should get back to you for advice on how to fix the discrepancies.
 
 [Back to the table of contents](#Table-of-contents)
 
