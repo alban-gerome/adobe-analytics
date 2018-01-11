@@ -203,6 +203,7 @@
         hh = V({
           element  : gg.element,
           event    : gg.event,
+          id       : cc,
           selector : gg.selector
         },
         o(dd),
@@ -214,8 +215,9 @@
       }else{
         gg = {element : document.body};
         hh = V({
-          element : gg.element,
-          rsid    : C.page.rsid
+          element  : gg.element,
+          id       : cc,
+          rsid     : C.page.rsid
         },
         o(dd));
       };
@@ -238,9 +240,10 @@
     };
 
     document.addEventListener("contextmenu", function(kk){
-      var ll, mm, nn = {};
-      if(kk.shiftKey) if(ll = kk.target.dataset){
-        for(mm in ll) nn[(function(oo){
+      var ll = kk.target.dataset, mm, nn = {};
+      if(JSON.stringify(ll)=="{}") return;
+      if(kk.shiftKey){
+        for(mm in ll) if(/^duckface/.test(mm)) nn[(function(oo){
           oo = oo.replace(/^duckface/, "");
           return [
             oo.charAt(0).toLowerCase(),
@@ -249,6 +252,9 @@
         })(mm)] = {value : ll[mm]};
         delete nn[""];
         console.table(nn);
+      };
+      if(kk.ctrlKey){
+        console.log(ll.duckfaceId, ll.duckfaceSrc);
       };
     });
 
