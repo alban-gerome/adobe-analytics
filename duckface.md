@@ -76,8 +76,7 @@ Please note that for the page views, the body tag will carry all data- attribute
 Here are a few handy Javascript tricks you can try after running Duckface on your page. Please make sure that Duckface has finished running, it may take a few minutes. First, I will give you the jQuery code, then the plain vanilla Javascript equivalent.
 
 Return all elements that triggered an interaction tracking request plus the body element for the page view request.
-<pre><code>
-  $("[data-duckface]");
+<pre><code>  $("[data-duckface]");
 </code></pre>
 <pre><code>
   document.querySelectorAll("[data-duckface]");
