@@ -83,15 +83,15 @@ Draw a 1px solid black border around the same elements as above:
 
 <pre><code>$("[data-duckface]").css({border : "1px solid black"});</code></pre>
 <pre><code>[].map.call(document.querySelectorAll("[data-duckface]"), function(a){
-    a.style.border = "1px solid black";
-  });</code></pre>
+  a.style.border = "1px solid black";
+});</code></pre>
 
 Draw a 1px solid green border around the elements that fired in response to a blur event, a red border for the change event and a blue one for the click event:
 
-<pre><code>$("[data-duckface-event='blur']").css({border:"1px solid green"});
+<pre><code>  $("[data-duckface-event='blur']").css({border:"1px solid green"});
   $("[data-duckface-event='change']").css({border:"1px solid red"});
   $("[data-duckface-event='click']").css({border:"1px solid blue"});</code></pre>
-<pre><code>[].map.call(document.querySelectorAll("[data-duckface-event='blur']"), function(a){a.style.border = "1px solid green"});
+<pre><code>  [].map.call(document.querySelectorAll("[data-duckface-event='blur']"), function(a){a.style.border = "1px solid green"});
   [].map.call(document.querySelectorAll("[data-duckface-event='change']"), function(a){a.style.border = "1px solid red"});
   [].map.call(document.querySelectorAll("[data-duckface-event='click']"), function(a){a.style.border = "1px solid blue"});</code></pre>
 
