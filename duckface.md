@@ -88,9 +88,9 @@ Draw a 1px solid black border around the same elements as above:
 
 Draw a 1px solid green border around the elements that fired in response to a blur event, a red border for the change event and a blue one for the click event:
 
-<pre><code>$("[data-duckface-event='blur']").css({border:"1px solid green"});
-$("[data-duckface-event='change']").css({border:"1px solid red"});
-$("[data-duckface-event='click']").css({border:"1px solid blue"});</code></pre>
+<pre><code>$("[data-duckface-event='blur']").css({border : "1px solid green"});
+$("[data-duckface-event='change']").css({border : "1px solid red"});
+$("[data-duckface-event='click']").css({border : "1px solid blue"});</code></pre>
 <pre><code>[].map.call(document.querySelectorAll("[data-duckface-event='blur']"), function(a){a.style.border = "1px solid green"});
 [].map.call(document.querySelectorAll("[data-duckface-event='change']"), function(a){a.style.border = "1px solid red"});
 [].map.call(document.querySelectorAll("[data-duckface-event='click']"), function(a){a.style.border = "1px solid blue"});</code></pre>
@@ -126,6 +126,6 @@ The developers can now run Duckface before pushing changes live and see everythi
 [Back to the table of contents](#Table-of-contents)
 
 Alban Gérôme
-11 Jan 2018
+12 Jan 2018
 
 Follow me on Twitter: <a href="https://twitter.com/albangerome?lang=en-gb" title="Follow Alban Gérôme on  Twitter">@albangerome</a>
