@@ -91,7 +91,7 @@ Draw a 1px solid green border around the elements that fired in response to a bl
 <pre><code>$("[data-duckface-event='blur']").css({border:"1px solid green"});
 $("[data-duckface-event='change']").css({border:"1px solid red"});
 $("[data-duckface-event='click']").css({border:"1px solid blue"});</code></pre>
-<pre><code [].map.call(document.querySelectorAll("[data-duckface-event='blur']"), function(a){a.style.border = "1px solid green"});
+<pre><code>[].map.call(document.querySelectorAll("[data-duckface-event='blur']"), function(a){a.style.border = "1px solid green"});
 [].map.call(document.querySelectorAll("[data-duckface-event='change']"), function(a){a.style.border = "1px solid red"});
 [].map.call(document.querySelectorAll("[data-duckface-event='click']"), function(a){a.style.border = "1px solid blue"});</code></pre>
 
