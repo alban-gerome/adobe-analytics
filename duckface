@@ -193,8 +193,6 @@
       };
     });
 
-    cc
-
     for(cc in window) if(/^s_i_/.test(cc)){
       dd = window[cc].src;
       if(ee = dd.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
