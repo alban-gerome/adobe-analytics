@@ -119,7 +119,7 @@
         if(F()) E({mutation : K});
       });
     }else{
-
+      if(F()) E({mutation : J.event});
     };
   };
   var L, M = "MutationObserver", N;
@@ -161,6 +161,6 @@
           };
         }
       });
-    };
+    });
   });
 })();
