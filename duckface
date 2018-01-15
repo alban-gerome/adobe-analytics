@@ -1,5 +1,5 @@
 (function(){
-  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, Q, V, Z, cc, dd, ee, ff, gg, hh, ii, jj, pp, qq, rr;
+  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, Q, V, Z, cc, dd, ee, ff, gg, hh, ii, jj, pp, qq, rr, drums;
 
   function a(){
     var b = s_c_il[0];
@@ -94,7 +94,8 @@
     };
     return t;
   };
-  if(arguments.length==0){
+
+  function getFootprint(){
     if((z = function(){
       A = "";
       for(B in window) if(/^s_i_/.test(B)) A = o(window[B].src);
@@ -256,7 +257,26 @@
       };
     });
 
-    return C;
+    console.log(C);
+    if(drums.constructor===HTMLAudioElement) drums.pause();
+  };
+
+  if(arguments.length==0){
+    if(window.Audio){
+      drums      = new Audio("http://www.albangerome.com/sounds/drumming%20128.mp3");
+      drums.loop = !0;
+      (function(){
+        return drums.play();
+      })()
+      .then(function(){
+        getFootprint();
+      })
+      .catch(function(){
+        getFootprint();
+      });      
+    }else{
+      getFootprint();
+    };
   }else{
     pp = arguments;
     qq = [];
