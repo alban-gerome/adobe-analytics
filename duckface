@@ -1,5 +1,5 @@
 (function(){
-  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, Q, V, Z, cc, dd, ee, ff, gg, hh, ii, jj, pp, qq, rr, drums;
+  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, Q, V, Z, cc, dd, ee, ff, gg, hh, ii, jj, pp, qq, rr, ducks, loop = 3;
 
   function a(){
     var b = s_c_il[0];
@@ -258,15 +258,27 @@
     });
 
     console.log(C);
-    if(drums.constructor===HTMLAudioElement) drums.pause();
+    if(ducks.constructor===HTMLAudioElement){
+      ducks.loop = !1;
+      ducks.src  = "http://www.albangerome.com/sounds/birds-duck.mp3";
+      setInterval(function(){
+        if(loop==0){
+          clearInterval(loop);
+        }else{
+          loop--;
+          ducks.play();
+        };
+      }, 500);
+    };
   };
 
   if(arguments.length==0){
     if(window.Audio){
-      drums      = new Audio("http://www.albangerome.com/sounds/drumming%20128.mp3");
-      drums.loop = !0;
+      // http://www.albangerome.com/sounds/drumming%20128.mp3";
+      ducks = new Audio("http://www.albangerome.com/sounds/birds-bird-mallard-duck-4.mp3");
+      ducks.loop = !0;
       (function(){
-        return drums.play();
+        return ducks.play();
       })()
       .then(function(){
         getFootprint();
