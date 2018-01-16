@@ -1,5 +1,6 @@
 Duckface
 ========
+[logo]: http://www.albangerome.com/images/Duckface.png "Duckface"
 
 How to extract the entire Adobe Analytics footprint for a given page
 --------------------------------------------------------------------
