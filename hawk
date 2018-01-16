@@ -146,9 +146,9 @@
   };
   
   window.spoof = function(pre,post){
-    if(pre and pre.constructor===Function)   pre();
+    if(pre &&  pre.constructor===Function)  pre();
     E();
-    if(post and post.constructor===Function) post();
+    if(post && post.constructor===Function) post();
   };
 
   ["blur", "change", "click"].map(function(O){
