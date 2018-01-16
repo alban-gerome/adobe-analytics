@@ -17,6 +17,7 @@ With Duckface, now you can. Just load the page you want to test in Chrome, open 
 * [Quick quacks](#Quacks)
 * [Decode raw requests](#Raw)
 * [What is it useful for?](#Useful)
+* [Known bugs](#Bugs)
 
 
 <a id="Pageviews"></a>
@@ -122,6 +123,15 @@ Two raw requests example:
 Now you can easily audit a page or a collection of pages by either going to the page itself or by asking your developers to provide with the evidence that they have implemented all your tracking requirements.
 
 The developers can now run Duckface before pushing changes live and see everything that would be tracked on the page and compare the output with the tagging guide. Ideally, your tagging plan could exist in JSON format and you could compare the JSON of your tagging guide with the JSON produced by Duckface. Unless the comparison shows a perfect match, the developers should get back to you for advice on how to fix the discrepancies.
+[Back to the table of contents](#Table-of-contents)
+
+<a id="Bugs"></a>
+### Known bugs
+
+* On Macs, it seems that when firing a click event on a link, the script opens the link and you might land on a different page. On Windows 10 and Chrome 63.0.3239.132 (64-bit), I had no such issue
+* Some page elements have additional event listeners before running the script and here as well, firing a click, blur or change event will trigger these event listeners as well. This could result in UI changes such as revealing the content under a tab or a pop-up
+
+Please let me know if you find any other bugs
 
 [Back to the table of contents](#Table-of-contents)
 
