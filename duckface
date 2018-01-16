@@ -274,7 +274,6 @@
 
   if(arguments.length==0){
     if(window.Audio){
-      // http://www.albangerome.com/sounds/drumming%20128.mp3";
       ducks = new Audio("http://www.albangerome.com/sounds/birds-bird-mallard-duck-4.mp3");
       ducks.loop = !0;
       (function(){
