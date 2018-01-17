@@ -130,6 +130,7 @@ The developers can now run Duckface before pushing changes live and see everythi
 <a id="Bugs"></a>
 ### Known bugs
 
+* The pages I have tested often load a new page as a result of the script running and the script aborts before delivering the goods
 * On Macs, it seems that when firing a click event on a link, the script opens the link and you might land on a different page. On Windows 10 and Chrome 63.0.3239.132 (64-bit), I had no such issue
 * Some page elements have additional event listeners before running the script and here as well, firing a click, blur or change event will trigger these event listeners as well. This could result in UI changes such as revealing the content under a tab or a pop-up
 
