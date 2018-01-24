@@ -1,307 +1,240 @@
-(function(){
-  var a, c, e, h, j, o, z, A, B, C, D, E, F, M, N, O, Q, V, Z, cc, dd, ee, ff, gg, hh, ii, jj, pp, qq, rr, ducks, loop = 4;
+  (function(){
+    var a, b, c, j, m, t, v, L, M, N = 4, O, P, Q;
 
-  function a(){
-    var b = s_c_il[0];
-    return ["t"].concat(b.lightProfileID ? b.va_m : b.va_t);
-  };
-  function c(d){    
-    var e, f, g, h, i;
-    e = {
-      "browserHeight"                : "bh",      "browserWidth"      : "bw",   "campaign"              : "v0",   "channel"                : "ch",
-      "colorDepth"                   : "c",       "connectionType"    : "ct",   "cookieDomainPeriods"   : "cdp",  "cookieLifetime"         : "cl",
-      "cookiesEnabled"               : "k",       "currencyCode"      : "cc",   "deleteLightProfiles"   : "mtsd", "dynamicVariablePrefix"  : "D",
-      "javaEnabled"                  : "v",       "javascriptVersion" : "j",    "lightIncrementBy"      : "mti",  "lightProfileID"         : "mtp",
-      "lightStoreForSeconds"         : "mtss",    "homepage"          : "hp",   "pageURL"               : "g",    "pageURLRest"            : "-g",
-      "plugins"                      : "p",       "resolution"        : "s",    "retrieveLightProfiles" : "mtsr", "timestamp"              : "ts",
-      "transactionID"                : "xact",    "vmk"               : "vmt",  "visitorMigrationKey"   : "vmt",  "visitorMigrationServer" : "vmf",
-      "visitorMigrationServerSecure" : "vmf",     "visitorNamespace"  : "ns",   "variableProvider"      : "vvp",  "visitorID"              : "vid",
-      "lnk_d"                        : "download", "lnk_e"            : "exit", "lnk_o"                 : "other"
+    if(!(s_c_il && (a = s_c_il[0]))) return;
+    a.un = "duckface";
+    function b(){
+      return ["t"].concat(a.lightProfileID ? a.va_m : a.va_t);
     };
-    for(f in e) e[e[f]] = f;
-    g = {
-      "eVar" : {"max" : 75, "short" : "v"},
-      "hier" : {"max" : 5,  "short" : "h"},
-      "list" : {"max" : 3,  "short" : "l"},
-      "prop" : {"max" : 75, "short" : "c"}
+    function c(d){
+      var e, f, g, h, i;
+      e = {
+        "browserHeight"                : "bh",      "browserWidth"      : "bw",   "campaign"              : "v0",   "channel"                : "ch",
+        "colorDepth"                   : "c",       "connectionType"    : "ct",   "cookieDomainPeriods"   : "cdp",  "cookieLifetime"         : "cl",
+        "cookiesEnabled"               : "k",       "currencyCode"      : "cc",   "deleteLightProfiles"   : "mtsd", "dynamicVariablePrefix"  : "D",
+        "javaEnabled"                  : "v",       "javascriptVersion" : "j",    "lightIncrementBy"      : "mti",  "lightProfileID"         : "mtp",
+        "lightStoreForSeconds"         : "mtss",    "homepage"          : "hp",   "pageURL"               : "g",    "pageURLRest"            : "-g",
+        "plugins"                      : "p",       "resolution"        : "s",    "retrieveLightProfiles" : "mtsr", "timestamp"              : "ts",
+        "transactionID"                : "xact",    "vmk"               : "vmt",  "visitorMigrationKey"   : "vmt",  "visitorMigrationServer" : "vmf",
+        "visitorMigrationServerSecure" : "vmf",     "visitorNamespace"  : "ns",   "variableProvider"      : "vvp",  "visitorID"              : "vid",
+        "lnk_d"                        : "download", "lnk_e"            : "exit", "lnk_o"                 : "other"
+      };
+      for(f in e) e[e[f]] = f;
+      g = {
+        "eVar" : {"max" : 75, "short" : "v"},
+        "hier" : {"max" : 5,  "short" : "h"},
+        "list" : {"max" : 3,  "short" : "l"},
+        "prop" : {"max" : 75, "short" : "c"}
+      };
+      for(h in g) for(i=1; i<g[h].max; i++){
+        e[[h, i].join("")]          = [g[h].short, i].join("");
+        e[[g[h].short, i].join("")] = [h, i].join("");
+      };
+      return e[d] || d;
     };
-    for(h in g) for(i=1; i<g[h].max; i++){
-      e[[h, i].join("")]          = [g[h].short, i].join("");
-      e[[g[h].short, i].join("")] = [h, i].join("");
+    function j(k, l){
+      var l = k.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/);
+      return l=="friendly" ? Date.UTC(
+        +l[3],   l[2]-1,     +l[1],
+        +l[4],  +l[5],       +l[6]
+      ) : [
+        [l[1], (+l[2]+1+""),  l[3]].join("/"),
+        [l[4],   l[5],        l[6]].join(":"),
+        "GMT"
+      ].join(" ");
     };
-    return e[d] || d;
-  };
-  function j(k, l){
-    var m = k.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/);
-    return l=="friendly" ? Date.UTC(
-      +m[3],   m[2]-1,     +m[1],
-      +m[4],  +m[5],       +m[6]
-    ) : [
-      [m[1], (+m[2]+1+""), m[3]].join("/"),
-      [m[4],   m[5],       m[6]].join(":"),
-      "GMT"
-    ].join(" ");
-  };
-  function o(p){
-    var q, r, s, t, u, v, w, x, y;
-    q = p.match(/(?:&c\.&)(.*)(?:&\.c&)/);
-    r = q ? p.replace(q[0], "&") : p;
-    s = p.match(/\/b\/ss\/([a-zA-Z0-9]*)\/([\d.]*)\/([a-zA-Z0-9-.]*)\/(s\d*)\?/);
-    if(!s) return {src : p};
-    t = {
-      src              : p,
-      rsid             : s[1],
-      mobile           : s[2],
-      version          : s[3],
-      cacheBuster      : s[4],
-      length           : p.length,
-      isTooLong        : p.length > 2083,
-      linkTrackVars2   : [],
-      linkTrackEvents2 : "None"
-    };
-    u = a();
-    if(q){
-      t.contextData = {};
-      q[1].split("&").map(function(v){
-        u.push(v.split("=")[0]);
+    function m(n){
+      var o, p, q, r, s, t, u, v;
+      o = n.match(/(?:&c\.&)(.*)(?:&\.c&)/);
+      p = o ? n.replace(o[0], "&") : n;
+      q = n.match(/\/b\/ss\/([a-zA-Z0-9]*)\/([\d.]*)\/([a-zA-Z0-9-.]*)\/(s\d*)\?/);
+      if(!q) return {src : n};
+      r = {
+        metaData      : {
+          src              : n,
+          rsid             : q[1],
+          mobile           : q[2],
+          version          : q[3],
+          cacheBuster      : q[4],
+          length           : n.length,
+          isTooLong        : n.length > 2083
+        },
+        reportingData : {
+          linkTrackVars2   : [],
+          linkTrackEvents2 : "None"
+        }
+      };
+      s = b();
+      if(o){
+        r.reportingData.contextData = {};
+        o[1].split("&").map(function(t){
+          s.push(t.split("=")[0]);
+        });
+      };
+      s.map(function(u){
+        var w;
+        v = p.match(new RegExp(["\\/b\\/ss\\/.*&", c(u), "=([^&]*)"].join("")));
+        if(o) w = o[1].match(new RegExp([u, "=([^&?]*)"].join("")));
+        if(v) r.reportingData[u] = c(unescape(v[1]));
+        if(w) r.reportingData.contextData[u] = unescape(w[1]);
+        if(/&pe(v2)?=/.test(p) && /^eVar\d{1,2}|hier\d|list\d|prop\d{1,2}|events$/.test(u)){
+          if(v) r.reportingData.linkTrackVars2.push(u);
+          if(w) r.reportingData.linkTrackVars2.push(["contextData", u].join("."));
+          if(u=="events") linkTrackEvents2 = u;
+        };
       });
-    };
-    u.map(function(w){
-      x = r.match(new RegExp(["\\/b\\/ss\\/.*&", c(w), "=([^&]*)"].join("")));
-      if(q) y = q[1].match(new RegExp([w, "=([^&?]*)"].join("")));
-      if(x) t[w] = c(unescape(x[1]));
-      if(y) t.contextData[w] = unescape(y[1]);
-      if(/&pe(v2)?=/.test(p) && /^eVar\d{1,2}|hier\d|list\d|prop\d{1,2}|events$/.test(w)){
-        if(x) t.linkTrackVars2.push(w);
-        if(y) t.linkTrackVars2.push(["contextData", w].join("."));
-        if(w=="events") linkTrackEvents2 = w;
+      r.metaData.timestamp            = j(r.reportingData.t, "friendly");
+      r.reportingData.t               = j(r.reportingData.t);
+      r.reportingData.linkTrackVars   = r.reportingData.linkTrackVars   || r.reportingData.linkTrackVars2.join(",");
+      r.reportingData.linkTrackVars   = r.reportingData.linkTrackVars
+                                         .replace("contextData.testCaseKey", "")
+                                         .replace(/,{2,}/g, ",")
+                                         .replace(/^,/g, "")
+                                         .replace(/,$/g, "");
+      r.reportingData.linkTrackEvents = r.reportingData.linkTrackEvents || r.reportingData.linkTrackEvents2;
+      delete r.reportingData.linkTrackVars2;
+      delete r.reportingData.linkTrackEvents2;
+      if(!/&pe(v2)?=/.test(p)){
+        delete r.reportingData.linkTrackVars;
+        delete r.reportingData.linkTrackEvents;
       };
-    });
-    t.timestamp        = j(t.t);
-    t.t                = j(t.t, "friendly");
-    t.linkTrackVars    = t.linkTrackVars   || t.linkTrackVars2.join(",");
-    t.linkTrackVars    = t.linkTrackVars
-                          .replace("contextData.testCaseKey", "")
-                          .replace(/,{2,}/g, ",")
-                          .replace(/^,/g, "")
-                          .replace(/,$/g, "");
-    t.linkTrackEvents  = t.linkTrackEvents || t.linkTrackEvents2;
-    delete t.linkTrackVars2;
-    delete t.linkTrackEvents2;
-    if(!/&pe(v2)?=/.test(p)){
-      delete t.linkTrackVars;
-      delete t.linkTrackEvents;
+      return r;
     };
-    return t;
-  };
-
-  function getFootprint(){
-    if((z = function(){
-      A = "";
-      for(B in window) if(/^s_i_/.test(B)) A = o(window[B].src);
-      return A;
-    })()=="") return;
-
-    C = {
-      page : z()
-    };
-    D = document.body.querySelectorAll("*");
-    if(D.length==0) return C;
-    C.interactions = [];
-    console.log("Please make duckfaces while you wait");
-    E = {};
-    F = s_c_il[0];
-    F.un = "duckface";
-    F.tl = function(G, H, I, J, K){
-      var L = this;
-      if(L.contextData.testCaseKey) L.linkTrackVars = L.apl(L.linkTrackVars, "contextData.testCaseKey", ",", 1);
-      L.lnk = G;
-      L.linkType = H
-      L.linkName = I;
-      if(K){
-        L.bct = E;
-        L.bcf = K;
-        E[L.contextData.testCaseKey].callback = K + "";
-      };
-      L.t(J);
-    };
-
-    M = {};
-    N = ["blur", "change", "click"];
-    O = function(P){
-      P.element.addEventListener(P.event, function(){
+    function t(u){
+      u.element.addEventListener(u.event, function(){
         event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
       });
-      P.element.dispatchEvent(new MouseEvent(
-        P.event, {
+      u.element.dispatchEvent(new MouseEvent(
+        u.event, {
           bubbles    : !0,
           cancelable : !0
         }
       ));
     };
-
-    Q = function(R){
-      var S = [], T, U;
-      while(R.parentNode){
-        if(R.id){
-          S.unshift("#" + R.id);
-          break;
+    function v(){
+      var w, z, A, B, C, D, E, F, G, H, I, J, K;
+      if((w = function(){
+        var x = "", y;
+        for(y in window) if(/^s_i_/.test(y)) x = m(window[y].src);
+        return x;
+      })()=="") return;
+      z = {
+        page : w()
+      };
+      A = document.body.querySelectorAll("*");
+      if(!A || A.length==0) return z;
+      z.interactions = [];
+      B = {};
+      ["blur", "change", "click"].map(function(C){
+        var D;
+        for(D=0; D<A.length; D++){
+          t(B[a.rc[a.visitorNamespace]] = {
+            element : A[D],
+            event   : C
+          });
+          a.rc[a.visitorNamespace]++;
+        };
+      });
+      for(E in window) if(/^s_i_/.test(E)){
+        F = +(E.match(new RegExp([
+          "^s_i_(?:\\d+_)?",
+          a.visitorNamespace,
+          "(?:_(\\d+))"
+        ].join("")))||[,""])[1];
+        G = window[E].src;
+        H = {};
+        if(/&(pe|pev1|pev2)=/.test(G)){
+          H                       = m(G);
+          H.metaData.element      = B[F].element;
+          H.metaData.event        = B[F].event;
+          H.metaData.id           = E;
+          H.reportingData.rsid    = z.page.metaData.rsid;
+          z.interactions.push(H);
         }else{
-          if(R==R.ownerDocument.documentElement){
-            S.unshift(R.tagName.toLowerCase());
+          z.page.metaData.element = document.body;
+          z.page.metaData.id      = E;
+        };
+      };
+      I = document.body.dataset;
+      I.duckface            = "";
+      I.duckfaceRequestId   = z.page.metaData.id;
+      z.interactions.map(function(J){
+        K = J.metaData.element.dataset;
+        K.duckface          = "";
+        K.duckfaceRequestId = J.metaData.id;
+        K.duckfaceEvent     = J.metaData.event;
+      });
+      if(L.constructor===HTMLAudioElement){
+        L.loop = !1;
+        L.src  = "http://www.albangerome.com/sounds/birds-duck.mp3";
+        M = setInterval(function(){
+          if(N==0){
+            clearInterval(M);
           }else{
-            T = 1;
-            U = R;
-            while(U = U.previousElementSibling) T++;
-            S.unshift([
-              R.tagName.toLowerCase(),
-              ":nth-child(",
-              T,
-              ")"
-            ].join(""));
+            N--;
+            L.play();
           };
-          R = R.parentNode;
-        };
+        }, 500);
       };
-      return S.join(">");
-    };
-
-    V = function(){
-      var W = arguments, X, Y;
-      if(W.length==0) return;
-      if(W.length==1){
-        if(W[0].constructor===Object) return W[0];
-        return;
-      };
-      for(X=1; X<W.length; X++){
-        if(W[X].constructor!==Object) return;
-        for(Y in W[X]) W[0][Y] = W[X][Y];
-      };
-      return W[0];
-    };
-
-    Z = 0;
-    N.map(function(aa){
-      var bb;
-      for(bb=0; bb<D.length; bb++){
-        s_c_il[0].contextData["testCaseKey"] = Z + "";
-        O(M[Z] = {
-          element  :   D[bb],
-          selector : Q(D[bb]),
-          event    : aa
+      function O(P){
+        var Q;
+        z.interactions.map(function(R){
+          Q = R.metaData.id==P ? R : Q; 
         });
-        Z++;
+        return Q;
       };
-    });
-
-    for(cc in window) if(/^s_i_/.test(cc)){
-      dd = window[cc].src;
-      if(ee = dd.match(/&c\.&.*testCaseKey=(\d+).*&\.c.*&/)){
-        ff = E[+ee[1]];
-        gg = M[+ee[1]];
-        hh = V({
-          element  : gg.element,
-          event    : gg.event,
-          id       : cc,
-          selector : gg.selector
-        },
-        o(dd),
-        {rsid      : C.page.rsid},
-        (function(){
-          return ff ? {callback : ff.callback} : {}; 
-        })());
-        C.interactions.push(hh);
-      }else{
-        gg = {element : document.body};
-        hh = V({
-          element  : gg.element,
-          id       : cc,
-          rsid     : C.page.rsid
-        },
-        o(dd));
+      function S(T, U){
+        console.log(T);
+        var V, W = {};
+        for(V in U) W[V] = {value : U[V]};
+        console.table(W);
       };
-      for(ii in hh){
-        gg.element.dataset.duckface = "";
-        if(ii=="contextData"){
-          for(jj in hh.contextData) gg.element.dataset[[
-                                      "duckfaceContextData",
-                                      jj.charAt(0).toUpperCase(),
-                                      jj.slice(1)
-                                    ].join("")] = hh.contextData[jj];
-        }else if(!/^(cacheBuster|element|selector)$/.test(ii)){
-                                    gg.element.dataset[[
-                                      "duckface",
-                                      ii.charAt(0).toUpperCase(),
-                                      ii.slice(1)
-                                    ].join("")] = hh[ii];
+      document.addEventListener("contextmenu", function(X){
+        var Y, Z, V, W, Y = {};
+        if(JSON.stringify(X.target.dataset)=="{}") return;
+        Y = X.target.dataset.duckfaceRequestId;
+        if(X.shiftKey){
+          Z = O(Y);
+          S("Meta data",      Z.metaData);
+          S("Reporting data", Z.reportingData);
         };
-      };
-    };
-
-    document.addEventListener("contextmenu", function(kk){
-      var ll = kk.target.dataset, mm, nn = {};
-      if(JSON.stringify(ll)=="{}") return;
-      if(kk.shiftKey){
-        for(mm in ll) if(/^duckface/.test(mm)) nn[(function(oo){
-          oo = oo.replace(/^duckface/, "");
-          return [
-            oo.charAt(0).toLowerCase(),
-            oo.slice(1)
-          ].join("");
-        })(mm)] = {value : ll[mm]};
-        delete nn[""];
-        console.table(nn);
-      };
-      if(kk.ctrlKey){
-        console.log(ll.duckfaceId, ll.duckfaceSrc);
-      };
-    });
-
-    console.log(C);
-    if(ducks.constructor===HTMLAudioElement){
-      ducks.loop = !1;
-      ducks.src  = "http://www.albangerome.com/sounds/birds-duck.mp3";
-      setInterval(function(){
-        if(loop==0){
-          clearInterval(loop);
-        }else{
-          loop--;
-          ducks.play();
+        if(X.ctrlKey){
+          console.log(Y, window[Y].src);
         };
-      }, 500);
-    };
-  };
-
-  if(arguments.length==0){
-    if(window.Audio){
-      ducks = new Audio("http://www.albangerome.com/sounds/birds-bird-mallard-duck-4.mp3");
-      ducks.loop = !0;
-      (function(){
-        return ducks.play();
-      })()
-      .then(function(){
-        getFootprint();
-      })
-      .catch(function(){
-        getFootprint();
-      });      
-    }else{
-      getFootprint();
-    };
-  }else{
-    pp = arguments;
-    qq = [];
-    if(pp.length==1){
-      if(pp[0].constructor===String) rr = [arguments[0]];
-      if(pp[0].constructor===Array)  rr =  arguments[0];
-      rr.map(function(ss){
-        var tt = o(ss);
-            tt.isPageView    = !tt.interactionType;
-            tt.isInteraction = !tt.isPageView;
-        qq.push(tt);
       });
     };
 
-    return qq.length==1 ? qq[0] : qq;
-  };
-})();
+    if(arguments.length==0){
+      if(window.Audio){
+        L      = new Audio("http://www.albangerome.com/sounds/birds-bird-mallard-duck-4.mp3");
+        L.loop = !0;
+        (function(){
+          return L.play();
+        })()
+        .then(function(){})
+        .catch(function(){})
+        .then(function(){
+          v();
+        });
+      }else{
+        v();
+      };
+    }else{
+      aa = arguments;
+      bb = [];
+      if(aa.length==1){
+        if(aa[0].constructor===String) cc = [aa[0]];
+        if(aa[0].constructor===Array)  cc =  aa[0];
+        cc.map(function(dd){
+          var ee = m(dd);
+              ee.metaData.isInteraction   = /&(pe|pev1|pev2)=/.test(dd);
+              ee.metaData.isPageView      = !ee.metaData.isInteraction;
+          bb.push(ee);
+        });
+      };
+
+      return bb.length==1 ? bb[0] : bb;
+    };
+  })();
