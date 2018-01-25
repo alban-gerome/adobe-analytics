@@ -56,7 +56,7 @@ The challenge here is how can we find elements that result in an image request? 
 
 These 3 events should cover 99% of your tracking needs. If we fire a click on a link and that link is tracked, we will have a JSON representing the decoded tracking request for that link when it is clicked in script output. If that link would result in a new page to load, you will stay on the same page. We stop the click but sometimes, some pages may display a lightbox or reveal a tab that was previousy hidden.
 
-I send all the tracking request to a dummy reporting suite, let's hope nobody has a reporting suite called "duckface". Feel free to change that to your own testing reporting suite id if you are slightly paranoid and want to see the requests in the pages and custom link reports.
+I send all the tracking request to a dummy reporting suite, let's hope nobody has a reporting suite id called "duckface". I may have to generate a completely random reporting suite name each time if I don't want to receive a bill from Adobe sent to me. Feel free to change that to your own testing reporting suite id if you are slightly paranoid and want to see the requests in the pages and custom link reports.
 
 [Back to the table of contents](#Table-of-contents)
 
@@ -65,7 +65,12 @@ I send all the tracking request to a dummy reporting suite, let's hope nobody ha
 
 HTML5 supports custom attributes with any name of your choice, provided that it starts with "data-". After running Duckface, the body tag of the page will gain a new "data-duckface" and many "data-duckface-*" attributes where "*" represents a data point of interest such as the page name for example and all your props and eVars etc. Duckface will also add similar attributes to all the page elements that are tracked. This way, you can simply inspect the element and see if it is tracked and with which values.
 
-Now, with many data- attributes it will be difficult to read them so you can simply point at the element you want to check with your mouse, press the Shift key and right-click. It will display these data-attributes in a nice table in your browser console and you order them by alphabetical order by clicking on the "(index)" column. Please note that this sort of table can only disply up to 100 characters so the raw request, i.e. the data-duckface-drc attribute value is truncated with an ellipsis (...) in the middle.
+Now, with many data- attributes it will be difficult to read them so you can simply point at the element you want to check with your mouse, press the Shift key and right-click. It will display these data-attributes in not one but two nice tables in your browser console:
+
+* meta data: All data that will not appear in reports per se or not in that format such as the timestamp, the cachebuster, the Adobe Analytics library version, whether the vistor will be identified by the cookie method or the hard-coded mobile device id etc
+* reporting data: Everything that will end-up as-is or almost as-is in an Adobe Analytics report 
+
+These tables let you order them by alphabetical order by clicking on the "(index)" column. Please note that this sort of table can only display up to 100 characters per cell so the raw request, i.e. the data-duckface-src attribute value would be truncated with an ellipsis (...) in the middle and that's why it's missing from... the meta data table but...
 
 I mentioned above that for each page view and interaction tracking request, there is a Javascript object with a name starting with "s_i_". By pressing the Ctrl key and right click, it will show the name of that Javascript object and the raw tracking request URL in full. It may not show in full in the console but if you right-click and copy that URL, you will copy the full URL.
 
@@ -125,20 +130,20 @@ Two raw requests example:
 Now you can easily audit a page or a collection of pages by either going to the page itself or by asking your developers to provide with the evidence that they have implemented all your tracking requirements.
 
 The developers can now run Duckface before pushing changes live and see everything that would be tracked on the page and compare the output with the tagging guide. Ideally, your tagging plan could exist in JSON format and you could compare the JSON of your tagging guide with the JSON produced by Duckface. Unless the comparison shows a perfect match, the developers should get back to you for advice on how to fix the discrepancies.
+
 [Back to the table of contents](#Table-of-contents)
 
 <a id="Bugs"></a>
 ### Known bugs
 
-* The pages I have tested often load a new page as a result of the script running and the script aborts before delivering the goods
-* On Macs, it seems that when firing a click event on a link, the script opens the link and you might land on a different page. On Windows 10 and Chrome 63.0.3239.132 (64-bit), I had no such issue
-* Some page elements have additional event listeners before running the script and here as well, firing a click, blur or change event will trigger these event listeners as well. This could result in UI changes such as revealing the content under a tab or a pop-up
+* This might be resolved now but sometimes, some click events managed to slip through the cracks and a new page loaded before the script had finished loading. I have almost completely rewritten the code and this should no longer happen.
+* If you are hearing ducks quacking while the script runs, it's completely intentional. I could not manage to get the wait cursor to display while the script runs so I thought about playing sounds. At first, it was an awesome drum solo but to stay on theme, I found some duck sounds and it sounds more relaxing.
 
 Please let me know if you find any other bugs
 
 [Back to the table of contents](#Table-of-contents)
 
 Alban Gérôme
-17 Jan 2018
+25 Jan 2018
 
 Follow me on Twitter: <a href="https://twitter.com/albangerome?lang=en-gb" title="Follow Alban Gérôme on  Twitter">@albangerome</a>
