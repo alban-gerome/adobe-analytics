@@ -136,6 +136,7 @@ The developers can now run Duckface before pushing changes live and see everythi
 <a id="Bugs"></a>
 ### Known bugs
 
+* The code does not seem to work if you are using AppMeasurement, it only works with old H generation s_code.
 * This might be resolved now but sometimes, some click events manage to slip through the cracks and a new page loaded before the script had finished loading. I have almost completely rewritten the code and this should no longer happen.
 * If you are hearing ducks quacking while the script runs, it's completely intentional. I could not manage to get the wait cursor to display while the script runs so I thought about playing sounds. At first, it was an awesome drum solo but to stay on theme, I found some duck sounds and it sounds more relaxing.
 
