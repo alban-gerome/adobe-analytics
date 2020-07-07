@@ -1,0 +1,23 @@
+body{
+  background-color: #fff;
+  height: 21px;
+  left: 0;
+  margin: 0;
+  padding: 10px;
+  top: 0;
+  width: 458px;
+}
+  input{
+    float: left;
+    margin-right: 10px;
+  }
+  input:button{
+    width: 41px;
+  }
+  #rule{
+    clear: left;
+    width: 320px;
+  }
+  #reset{
+    margin: 0;
+  }
