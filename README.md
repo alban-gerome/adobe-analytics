@@ -42,6 +42,8 @@ The text field also accepts the unfriendly rule name. They all start with "RL", 
 
     _satellite._container.rules.map(a => a.id);
 
+You might notice that the extension popup remembers the rule you checked last. It's stored in localStorage but the popup has its own localStorage that is distinct from the one on the browser. Just use the reset button if you want to delete the last rule you searched for or just paste the next rule name you are analysing and submit.
+
 Alban Gérôme
 07 Jul 2020
 
