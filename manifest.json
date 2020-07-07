@@ -1,0 +1,26 @@
+{
+  "name": "Duckface",
+  "version": "1.1",
+  "manifest_version": 2,
+  "description": "Adobe Launch Debugger",
+  "browser_action": {
+    "default_icon": "duckface-icon.png",
+    "default_popup": "duckface2.html"
+  },
+  "permissions": [
+    "webRequest",
+    "<all_urls>",
+    "activeTab"
+  ],
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content2.js"],
+    "run_at": "document_start"
+  }],
+  "background": {
+    "persistent": true,
+    "scripts": [
+      "background2.js"
+    ]
+  }
+}
