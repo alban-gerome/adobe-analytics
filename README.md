@@ -48,7 +48,7 @@ Or both in one fell swoop with Javascript object destructuring:
 
 You might notice that the extension popup remembers the rule you checked last. It's stored in localStorage but the popup has its own localStorage that is distinct from the one on the browser. Just use the reset button if you want to delete the last rule you searched for or just paste the next rule name you are analysing and submit.
 
-The extension relies on the Adobe Launch monitoring hooks API. If the extension outputs no information then it means that the API has no information about that rule.
+The extension relies on the Adobe Launch monitoring hooks API. Some rules exist but the API has not interacted with them and has no information, or no rule exists under that name or id.
 
 Alban Gérôme
 07 Jul 2020
