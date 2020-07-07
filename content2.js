@@ -70,6 +70,8 @@
             };
           })(D);
         console.groupEnd();
+      }else{
+        console.log("%c   No rule with this name or id has interacted with Launch monitoring API", E);
       };
     };
     sendResponse({
