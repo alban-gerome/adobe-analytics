@@ -25,14 +25,20 @@ You will need these 6 files below:
 
 Copy them all into a single folder then open Chrome and go to chrome://extensions. You will need to pack the extension files by pointing Chrome to the folder where you saved the files. You should see a new icon appear to the right of your browser location bar, a black flying duck against a white background.
 
-Then open a page that runs Adobe Launch, setting it up in debug mode can be a good idea as it will give you Launch rule names that fired or not. You can switch on the debug mode with:
-
-    _satellite.setDebug(true);
+Please note that background2.js is not strictly needed for the extension to work. All it does is output the urls and the HTTP post body of all web requests in the current tab. You might need to remove lines 20-24 inside duckface2.js, also lines 20-25 in manifest.json and the trailing space at the end of line 19.
 
 <a id="HowToUse"></a>
 ### How to Use
 
-Then pick a rule name you want to investigate further, copy the rule name and click on the flying duck icon. Paste the rule name into the box and submit. The text field also accepts the unfriendly rule name. They all start with "RL", you can find them in the Adobe Launch embed tag source code in the rules array or under:
+Open a page that runs Adobe Launch, setting it up in debug mode can be a good idea as it will give you Launch rule names that fired or not. You can switch on the debug mode with:
+
+    _satellite.setDebug(true);
+
+Then pick a rule name you want to investigate further, copy the rule name and click on the flying duck icon. Paste the rule name into the box and submit. Alternatively, you can also find the friendly rule names without the Adobe LAunch debug mode by copyng and pasting the command below into your Chrome Javascript console:
+
+    _satellite._container.rules.map(a => a.name);
+
+The text field also accepts the unfriendly rule name. They all start with "RL", you can find them in the Adobe Launch embed tag source code in the rules array or under:
 
     _satellite._container.rules.map(a => a.id);
 
